@@ -29,4 +29,11 @@ public class AdDescription {
     public int hashCode() {
         return Objects.hash(adDescription);
     }
+
+    @Override
+    public String toString() {
+        return "AdDescription{" +
+                "adDescription='" + adDescription + '\'' +
+                '}';
+    }
 }

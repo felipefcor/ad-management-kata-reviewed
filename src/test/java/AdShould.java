@@ -5,7 +5,8 @@ import domain.Ad.exceptions.TitleAndDescriptionAreTheSameException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalTime;
+import java.time.LocalDate;
+
 
 public class AdShould {
     @Test
@@ -13,6 +14,6 @@ public class AdShould {
         AdTitle adTitle = new AdTitle("Esto es una prueba");
         AdDescription adDescription = new AdDescription("Esto es una prueba");
 
-        Assertions.assertThrows(TitleAndDescriptionAreTheSameException.class, () -> new Ad(adTitle, adDescription, LocalTime.now()));
+        Assertions.assertThrows(TitleAndDescriptionAreTheSameException.class, () -> new Ad(adTitle, adDescription, LocalDate.now()));
     }
 }
