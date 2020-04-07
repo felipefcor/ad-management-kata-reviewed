@@ -1,5 +1,6 @@
 package domain.Ad;
 
+import domain.Ad.DTO.AdDTO;
 import domain.Ad.DTO.AdDTODescription;
 import domain.Ad.DTO.AdDTOTitle;
 import domain.Ad.exceptions.TitleAndDescriptionAreTheSameException;
@@ -23,5 +24,13 @@ public class Ad {
         AdDTODescription adDTODescription = adDescription.createDescriptionDTO();
         if(adDTOTitle.adTitle == adDTODescription.adDescription) return true;
         return false;
+    }
+
+    public AdDTO createAdDTO() {
+        AdDTO adDTO = new AdDTO();
+        adDTO.adTitle = this.adTitle;
+        adDTO.adDescription = this.adDescription;
+        adDTO.date = this.date;
+        return adDTO;
     }
 }
