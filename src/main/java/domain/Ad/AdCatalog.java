@@ -1,10 +1,11 @@
 package domain.Ad;
+
 import domain.Ad.DTO.AdCatalogDTO;
 import domain.Ad.DTO.AdDTO;
 import domain.Ad.exceptions.AdDoesNotExistException;
 import domain.Ad.exceptions.AdExistsAlreadyException;
 
-import java.time.LocalTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -56,7 +57,11 @@ public class AdCatalog {
         return Objects.hash(adList);
     }
 
-    public void purge(LocalTime date) {
-
-    }
+    public void purge(LocalDate date) {
+        adList.sort(new DateSorter());
+        for (Ad ad : adList) {
+            AdDTO adDTO = ad.createAdDTO();
+            if(adDTO.date.isBefore(date)) remove(ad);
+        }
+     }
 }

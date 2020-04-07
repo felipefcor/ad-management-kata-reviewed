@@ -49,4 +49,12 @@ public class Ad {
         return Objects.hash(adTitle, adDescription);
     }
 
-   }
+    @Override
+    public String toString() {
+        return "Ad{" +
+                "adTitle=" + adTitle +
+                ", adDescription=" + adDescription +
+                ", date=" + date +
+                '}';
+    }
+}
