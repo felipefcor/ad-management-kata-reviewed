@@ -5,15 +5,15 @@ import domain.Ad.DTO.AdDTODescription;
 import domain.Ad.DTO.AdDTOTitle;
 import domain.Ad.exceptions.TitleAndDescriptionAreTheSameException;
 
-import java.time.LocalTime;
+import java.time.LocalDate;
 import java.util.Objects;
 
 public class Ad {
     private final AdTitle adTitle;
     private final AdDescription adDescription;
-    private final LocalTime date;
+    private final LocalDate date;
 
-    public Ad(AdTitle adTitle, AdDescription adDescription, LocalTime date) {
+    public Ad(AdTitle adTitle, AdDescription adDescription, LocalDate date) {
         if(checkTitleAndDescription(adTitle, adDescription)) throw new TitleAndDescriptionAreTheSameException();
         this.adTitle = adTitle;
         this.adDescription = adDescription;

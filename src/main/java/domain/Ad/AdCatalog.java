@@ -4,6 +4,7 @@ import domain.Ad.DTO.AdDTO;
 import domain.Ad.exceptions.AdDoesNotExistException;
 import domain.Ad.exceptions.AdExistsAlreadyException;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -20,13 +21,15 @@ public class AdCatalog {
         this.adList.add(ad);
       }
 
-    public void remove(AdTitle adTitle) {
-        if(!this.adList.contains(adTitle)) throw new AdDoesNotExistException();
-        for (Ad ad : this.adList) {
-            AdDTO adDTO = ad.createAdDTO();
-            if(adDTO.adTitle.equals(adTitle))  adList.remove(ad);
-        }
+    public void remove(Ad ad) {
+         if(!adList.contains(ad)) throw new AdDoesNotExistException();
+         for (Ad adIter : this.adList) {
+            AdDTO adDTO = adIter.createAdDTO();
+            if(adDTO.adTitle.equals(ad.createAdDTO().adTitle)){
+                adList.remove(ad);
+            }
     }
+}
 
     public AdCatalogDTO createAdCatalogDTO() {
         AdCatalogDTO adCatalogDTO = new AdCatalogDTO();
@@ -51,5 +54,9 @@ public class AdCatalog {
     @Override
     public int hashCode() {
         return Objects.hash(adList);
+    }
+
+    public void purge(LocalTime date) {
+
     }
 }

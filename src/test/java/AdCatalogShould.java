@@ -8,37 +8,38 @@ import domain.Ad.exceptions.AdExistsAlreadyException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
-import java.time.LocalTime;
+
+import java.time.LocalDate;
 
 public class AdCatalogShould {
     @Test
-    public void save_and_delete_ads(){
+    public void save_and_delete_ads() {
         AdTitle adTitle = new AdTitle("titulo");
         AdTitle adTitle2 = new AdTitle("titulo2");
         AdDescription adDescription = new AdDescription("descipción");
         AdDescription adDescription2 = new AdDescription("descipción2");
 
-        Ad ad1 = new Ad(adTitle, adDescription, LocalTime.now());
-        Ad ad2 = new Ad(adTitle2, adDescription2, LocalTime.now());
+        Ad ad1 = new Ad(adTitle, adDescription, LocalDate.now());
+        Ad ad2 = new Ad(adTitle2, adDescription2, LocalDate.now());
 
         AdCatalog adCatalog = new AdCatalog();
         AdCatalogDTO adCatalogDTO = adCatalog.createAdCatalogDTO();
 
         adCatalog.add(ad1);
         adCatalog.add(ad2);
-        adCatalog.remove(adTitle);
+        adCatalog.remove(ad1);
 
         Assert.assertEquals(1, adCatalogDTO.adList.size());
     }
 
     @Test
-    public void get_the_list_of_existent_ads(){
+    public void get_the_list_of_existent_ads() {
         AdTitle adTitle = new AdTitle("titulo");
         AdTitle adTitle2 = new AdTitle("titulo2");
         AdDescription adDescription = new AdDescription("descipción");
         AdDescription adDescription2 = new AdDescription("descipción2");
-        Ad ad1 = new Ad(adTitle, adDescription, LocalTime.now());
-        Ad ad2 = new Ad(adTitle2, adDescription2, LocalTime.now());
+        Ad ad1 = new Ad(adTitle, adDescription, LocalDate.now());
+        Ad ad2 = new Ad(adTitle2, adDescription2, LocalDate.now());
         AdCatalog adCatalog = new AdCatalog();
         adCatalog.add(ad1);
         adCatalog.add(ad2);
@@ -53,28 +54,32 @@ public class AdCatalogShould {
     }
 
     @Test
-    public void throw_an_error_when_tries_to_remove_an_unexistent_ad(){
+    public void throw_an_error_when_tries_to_remove_an_unexistent_ad() {
         AdTitle adTitle = new AdTitle("Titulo");
+        AdDescription adDescription = new AdDescription("descipción");
+        Ad ad = new Ad(adTitle, adDescription, LocalDate.now());
         AdCatalog adCatalog = new AdCatalog();
 
-        Assertions.assertThrows(AdDoesNotExistException.class, ()-> adCatalog.remove(adTitle));
+        Assertions.assertThrows(AdDoesNotExistException.class, () -> adCatalog.remove(ad));
     }
 
     @Test
-    public void throw_an_error_when_the_ad_exists_already(){
+    public void throw_an_error_when_the_ad_exists_already() {
 
         AdTitle adTitle = new AdTitle("titulo");
         AdTitle adTitle2 = new AdTitle("titulo");
         AdDescription adDescription = new AdDescription("descripcion");
         AdDescription adDescription2 = new AdDescription("descripcion");
 
-        Ad ad1 = new Ad(adTitle, adDescription, LocalTime.now());
-        Ad ad2 = new Ad(adTitle2, adDescription2, LocalTime.now());
+        Ad ad1 = new Ad(adTitle, adDescription, LocalDate.now());
+        Ad ad2 = new Ad(adTitle2, adDescription2, LocalDate.now());
 
         AdCatalog adCatalog = new AdCatalog();
 
         adCatalog.add(ad1);
 
-        Assertions.assertThrows(AdExistsAlreadyException.class, ()-> adCatalog.add(ad2));
+        Assertions.assertThrows(AdExistsAlreadyException.class, () -> adCatalog.add(ad2));
     }
+
+
 }
