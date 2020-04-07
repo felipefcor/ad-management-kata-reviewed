@@ -6,6 +6,7 @@ import domain.Ad.DTO.AdDTOTitle;
 import domain.Ad.exceptions.TitleAndDescriptionAreTheSameException;
 
 import java.time.LocalTime;
+import java.util.Objects;
 
 public class Ad {
     private final AdTitle adTitle;
@@ -33,4 +34,19 @@ public class Ad {
         adDTO.date = this.date;
         return adDTO;
     }
-}
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Ad ad = (Ad) o;
+        return Objects.equals(adTitle, ad.adTitle) &&
+                Objects.equals(adDescription, ad.adDescription);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(adTitle, adDescription);
+    }
+
+   }
