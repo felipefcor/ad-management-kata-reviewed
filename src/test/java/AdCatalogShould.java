@@ -34,14 +34,10 @@ public class AdCatalogShould {
 
     @Test
     public void get_the_list_of_existent_ads() {
-        AdTitle adTitle = new AdTitle("titulo");
-        AdTitle adTitle2 = new AdTitle("titulo2");
-        AdDescription adDescription = new AdDescription("descipción");
-        AdDescription adDescription2 = new AdDescription("descipción2");
-        Ad ad1 = new Ad(adTitle, adDescription, LocalDate.now());
-        Ad ad2 = new Ad(adTitle2, adDescription2, LocalDate.now());
+        Ad ad = new Ad(new AdTitle("titulo"), new AdDescription("descripcion"), LocalDate.now());
+        Ad ad2 = new Ad(new AdTitle("titulo1"), new AdDescription("descripcion1"), LocalDate.now());
         AdCatalog adCatalog = new AdCatalog();
-        adCatalog.add(ad1);
+        adCatalog.add(ad);
         adCatalog.add(ad2);
         AdCatalogDTO adCatalogDTOexpected = adCatalog.createAdCatalogDTO();
         AdCatalogDTO adCatalogDTOactual;
@@ -95,5 +91,19 @@ public class AdCatalogShould {
         Assert.assertEquals(ad2, adCatalog.createAdCatalogDTO().adList.get(0));
         Assert.assertEquals(1, adCatalog.createAdCatalogDTO().adList.size());
 
+    }
+
+    @Test
+    public void remove_the_oldest_ad_When_the_catalog_reaches_100_ads(){
+        AdCatalog adCatalog = new AdCatalog();
+        for (int i = 1; i < 150; i++) {
+            Ad ad = new Ad(new AdTitle("titulo" + i), new AdDescription("descripcion"+ i), LocalDate.ofYearDay(2019, i));
+            adCatalog.add(ad);
+        }
+
+        adCatalog.add(new Ad(new AdTitle("nuevo titulo"), new AdDescription("nueva descripcion"),LocalDate.ofYearDay(2019, 200)));
+
+        Assert.assertEquals(new Ad(new AdTitle("titulo99"), new AdDescription("descripcion99"), LocalDate.ofYearDay(2019, 99)), adCatalog.createAdCatalogDTO().adList.get(98));
+        Assert.assertEquals(100, adCatalog.createAdCatalogDTO().adList.size());
     }
 }

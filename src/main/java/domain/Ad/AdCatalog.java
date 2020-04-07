@@ -14,6 +14,7 @@ public class AdCatalog {
     private List<Ad> adList = new ArrayList<>();
 
     public void add(Ad ad) {
+        if(this.adList.size() == 100) sortListAdsByDate();
         for (Ad adIter : adList) {
             AdDTO adDTO = adIter.createAdDTO();
             if(adDTO.adTitle.equals(ad.createAdDTO().adTitle) && adDTO.adDescription.equals(ad.createAdDTO().adDescription))
@@ -21,6 +22,11 @@ public class AdCatalog {
         }
         this.adList.add(ad);
       }
+
+    private void sortListAdsByDate() {
+        this.adList.remove(this.adList.size() -1);
+        this.adList.sort(new DateSorter());
+    }
 
     public void remove(Ad ad) {
          if(!adList.contains(ad)) throw new AdDoesNotExistException();

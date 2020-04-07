@@ -41,12 +41,13 @@ public class Ad {
         if (o == null || getClass() != o.getClass()) return false;
         Ad ad = (Ad) o;
         return Objects.equals(adTitle, ad.adTitle) &&
-                Objects.equals(adDescription, ad.adDescription);
+                Objects.equals(adDescription, ad.adDescription) &&
+                Objects.equals(date, ad.date);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(adTitle, adDescription);
+        return Objects.hash(adTitle, adDescription, date);
     }
 
     @Override

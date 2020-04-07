@@ -31,4 +31,11 @@ public class AdTitle {
     public int hashCode() {
         return Objects.hash(adTitle);
     }
+
+    @Override
+    public String toString() {
+        return "AdTitle{" +
+                "adTitle='" + adTitle + '\'' +
+                '}';
+    }
 }
