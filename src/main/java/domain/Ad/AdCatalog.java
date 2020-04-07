@@ -2,6 +2,7 @@ package domain.Ad;
 import domain.Ad.DTO.AdCatalogDTO;
 import domain.Ad.DTO.AdDTO;
 import domain.Ad.exceptions.AdDoesNotExistException;
+import domain.Ad.exceptions.AdExistsAlreadyException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,8 +12,13 @@ public class AdCatalog {
     private List<Ad> adList = new ArrayList<>();
 
     public void add(Ad ad) {
+        for (Ad adIter : adList) {
+            AdDTO adDTO = adIter.createAdDTO();
+            if(adDTO.adTitle.equals(ad.createAdDTO().adTitle) && adDTO.adDescription.equals(ad.createAdDTO().adDescription))
+                throw new AdExistsAlreadyException();
+        }
         this.adList.add(ad);
-    }
+      }
 
     public void remove(AdTitle adTitle) {
         if(!this.adList.contains(adTitle)) throw new AdDoesNotExistException();
