@@ -1,6 +1,7 @@
 package domain.Ad;
 import domain.Ad.DTO.AdCatalogDTO;
 import domain.Ad.DTO.AdDTO;
+import domain.Ad.exceptions.AdDoesNotExistException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,11 +15,10 @@ public class AdCatalog {
     }
 
     public void remove(AdTitle adTitle) {
+        if(!this.adList.contains(adTitle)) throw new AdDoesNotExistException();
         for (Ad ad : this.adList) {
             AdDTO adDTO = ad.createAdDTO();
-            if(adDTO.adTitle.equals(adTitle)){
-                adList.remove(ad);
-            }
+            if(adDTO.adTitle.equals(adTitle))  adList.remove(ad);
         }
     }
 

@@ -3,9 +3,10 @@ import domain.Ad.AdCatalog;
 import domain.Ad.AdDescription;
 import domain.Ad.AdTitle;
 import domain.Ad.DTO.AdCatalogDTO;
+import domain.Ad.exceptions.AdDoesNotExistException;
 import org.junit.Assert;
 import org.junit.Test;
-
+import org.junit.jupiter.api.Assertions;
 import java.time.LocalTime;
 
 public class AdCatalogShould {
@@ -48,5 +49,13 @@ public class AdCatalogShould {
         Assert.assertEquals(adCatalogDTOexpected.adList.get(0), adCatalogDTOactual.adList.get(0));
         Assert.assertEquals(adCatalogDTOexpected.adList.get(1), adCatalogDTOactual.adList.get(1));
 
+    }
+
+    @Test
+    public void throw_an_error_when_tries_to_remove_an_unexistent_ad(){
+        AdTitle adTitle = new AdTitle("Titulo");
+        AdCatalog adCatalog = new AdCatalog();
+
+        Assertions.assertThrows(AdDoesNotExistException.class, ()-> adCatalog.remove(adTitle));
     }
 }
