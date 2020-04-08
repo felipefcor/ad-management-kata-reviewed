@@ -1,3 +1,5 @@
+package domain;
+
 import domain.Ad.Ad;
 import domain.Ad.AdDescription;
 import domain.Ad.AdTitle;

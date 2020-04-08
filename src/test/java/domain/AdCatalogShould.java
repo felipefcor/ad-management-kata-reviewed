@@ -1,3 +1,5 @@
+package domain;
+
 import domain.Ad.Ad;
 import domain.Ad.AdCatalog;
 import domain.Ad.AdDescription;
@@ -13,15 +15,13 @@ import java.time.LocalDate;
 
 public class AdCatalogShould {
     @Test
-    public void save_and_delete_ads() {
+    public void add_and_delete_ads() {
         AdTitle adTitle = new AdTitle("titulo");
         AdTitle adTitle2 = new AdTitle("titulo2");
         AdDescription adDescription = new AdDescription("descipción");
         AdDescription adDescription2 = new AdDescription("descipción2");
-
         Ad ad1 = new Ad(adTitle, adDescription, LocalDate.now());
         Ad ad2 = new Ad(adTitle2, adDescription2, LocalDate.now());
-
         AdCatalog adCatalog = new AdCatalog();
         AdCatalogDTO adCatalogDTO = adCatalog.createAdCatalogDTO();
 
@@ -61,16 +61,13 @@ public class AdCatalogShould {
 
     @Test
     public void throw_an_error_when_the_ad_exists_already() {
-
         AdTitle adTitle = new AdTitle("titulo");
         AdTitle adTitle2 = new AdTitle("titulo");
         AdDescription adDescription = new AdDescription("descripcion");
         AdDescription adDescription2 = new AdDescription("descripcion");
-
         Ad ad1 = new Ad(adTitle, adDescription, LocalDate.now());
         Ad ad2 = new Ad(adTitle2, adDescription2, LocalDate.now());
-
-        AdCatalog adCatalog = new AdCatalog();
+       AdCatalog adCatalog = new AdCatalog();
 
         adCatalog.add(ad1);
 
@@ -100,8 +97,6 @@ public class AdCatalogShould {
             Ad ad = new Ad(new AdTitle("titulo" + i), new AdDescription("descripcion"+ i), LocalDate.ofYearDay(2019, i));
             adCatalog.add(ad);
         }
-
-        adCatalog.add(new Ad(new AdTitle("nuevo titulo"), new AdDescription("nueva descripcion"),LocalDate.ofYearDay(2019, 200)));
 
         Assert.assertEquals(new Ad(new AdTitle("titulo99"), new AdDescription("descripcion99"), LocalDate.ofYearDay(2019, 99)), adCatalog.createAdCatalogDTO().adList.get(98));
         Assert.assertEquals(100, adCatalog.createAdCatalogDTO().adList.size());

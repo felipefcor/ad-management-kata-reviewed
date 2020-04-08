@@ -37,15 +37,22 @@ public class AdCatalog {
             }
     }
 }
-
-    public AdCatalogDTO createAdCatalogDTO() {
-        AdCatalogDTO adCatalogDTO = new AdCatalogDTO();
+    public AdCatalogDTO getList() {
+        AdCatalogDTO adCatalogDTO = this.createAdCatalogDTO();
         adCatalogDTO.adList = this.adList;
         return adCatalogDTO;
     }
 
-      public AdCatalogDTO getList() {
-        AdCatalogDTO adCatalogDTO = this.createAdCatalogDTO();
+    public void purge(LocalDate date) {
+        adList.sort(new DateSorter());
+        for (Ad ad : adList) {
+            AdDTO adDTO = ad.createAdDTO();
+            if(adDTO.date.isBefore(date)) remove(ad);
+        }
+    }
+
+    public AdCatalogDTO createAdCatalogDTO() {
+        AdCatalogDTO adCatalogDTO = new AdCatalogDTO();
         adCatalogDTO.adList = this.adList;
         return adCatalogDTO;
     }
@@ -62,12 +69,4 @@ public class AdCatalog {
     public int hashCode() {
         return Objects.hash(adList);
     }
-
-    public void purge(LocalDate date) {
-        adList.sort(new DateSorter());
-        for (Ad ad : adList) {
-            AdDTO adDTO = ad.createAdDTO();
-            if(adDTO.date.isBefore(date)) remove(ad);
-        }
-     }
 }
