@@ -1,6 +1,6 @@
 package domain;
 
-import domain.Ad.AdTitle;
+import domain.Ad.valueObjects.AdTitle;
 import domain.Ad.exceptions.TitleTooLongException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;;

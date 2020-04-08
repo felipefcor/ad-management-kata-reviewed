@@ -1,8 +1,8 @@
 package domain.Ad.DTO;
 
-import domain.Ad.AdDescription;
-import domain.Ad.AdTitle;
-import domain.Ad.AdVisits;
+import domain.Ad.valueObjects.AdDescription;
+import domain.Ad.valueObjects.AdTitle;
+import domain.Ad.valueObjects.AdVisits;
 
 import java.time.LocalDate;
 import java.util.Objects;

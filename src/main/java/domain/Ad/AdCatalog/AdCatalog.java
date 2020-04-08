@@ -1,7 +1,7 @@
 package domain.Ad.AdCatalog;
 
 import domain.Ad.Ad;
-import domain.Ad.AdTitle;
+import domain.Ad.valueObjects.AdTitle;
 import domain.Ad.DTO.AdCatalogDTO;
 import domain.Ad.DTO.AdDTO;
 import domain.Ad.DateSorter;

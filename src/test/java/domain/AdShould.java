@@ -1,8 +1,8 @@
 package domain;
 
 import domain.Ad.Ad;
-import domain.Ad.AdDescription;
-import domain.Ad.AdTitle;
+import domain.Ad.valueObjects.AdDescription;
+import domain.Ad.valueObjects.AdTitle;
 import domain.Ad.exceptions.TitleAndDescriptionAreTheSameException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

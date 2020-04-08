@@ -1,4 +1,4 @@
-package domain.Ad;
+package domain.Ad.valueObjects;
 
 import domain.Ad.DTO.AdDTODescription;
 

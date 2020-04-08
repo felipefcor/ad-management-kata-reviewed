@@ -4,6 +4,9 @@ import domain.Ad.DTO.AdDTO;
 import domain.Ad.DTO.AdDTODescription;
 import domain.Ad.DTO.AdDTOTitle;
 import domain.Ad.exceptions.TitleAndDescriptionAreTheSameException;
+import domain.Ad.valueObjects.AdDescription;
+import domain.Ad.valueObjects.AdTitle;
+import domain.Ad.valueObjects.AdVisits;
 
 import java.time.LocalDate;
 import java.util.Objects;
