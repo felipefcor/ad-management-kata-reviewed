@@ -1,10 +1,13 @@
 package domain;
 
 import domain.Ad.Ad;
-import domain.Ad.AdCatalog;
+import domain.Ad.AdCatalog.AdCatalog;
+import domain.Ad.AdCatalog.AdCatalogExpireByLessVisitedAd;
+import domain.Ad.AdCatalog.AdCatalogExpireByOldesAd;
 import domain.Ad.AdDescription;
 import domain.Ad.AdTitle;
 import domain.Ad.DTO.AdCatalogDTO;
+import domain.Ad.DTO.AdDTO;
 import domain.Ad.exceptions.AdDoesNotExistException;
 import domain.Ad.exceptions.AdExistsAlreadyException;
 import org.junit.Assert;
@@ -92,7 +95,7 @@ public class AdCatalogShould {
 
     @Test
     public void remove_the_oldest_ad_when_the_catalog_reaches_100_ads(){
-        AdCatalog adCatalog = new AdCatalog();
+        AdCatalog adCatalog = new AdCatalogExpireByOldesAd();
         for (int i = 1; i < 103; i++) {
             Ad ad = new Ad(new AdTitle("titulo" + i), new AdDescription("descripcion"+ i), LocalDate.ofYearDay(2019, i));
             adCatalog.add(ad);
@@ -102,4 +105,32 @@ public class AdCatalogShould {
         Assert.assertEquals(new Ad(new AdTitle("titulo3"), new AdDescription("descripcion3"), LocalDate.ofYearDay(2019, 3)), adCatalogDTO.adList.get(0));
         Assert.assertEquals(100, adCatalog.createAdCatalogDTO().adList.size());
     }
+
+    @Test
+    public void retrieve_a_concrete_ad(){
+        AdTitle adTitle = new AdTitle("titulo");
+        Ad ad = new Ad(adTitle, new AdDescription("descripcion"), LocalDate.now());
+        AdDTO adDTO = ad.createAdDTO();
+        AdCatalog adCatalog = new AdCatalog();
+        adCatalog.add(ad);
+
+        Assert.assertEquals(adDTO, adCatalog.get(adTitle));
+    }
+
+    @Test
+    public void remove_the_less_visited_ad_when_catalog_reaches_100_ads(){
+        AdCatalog adCatalog = new AdCatalogExpireByLessVisitedAd();
+        for (int i = 1; i < 102; i++) {
+            Ad ad = new Ad(new AdTitle("titulo" + i), new AdDescription("descripcion"+ i), LocalDate.ofYearDay(2019, i));
+            ad.createAdDTO().adVisits.createAdAccessesDTO().queueVisits.add(i);
+            adCatalog.add(ad);
+        }
+        AdCatalogDTO adCatalogDTO =  adCatalog.createAdCatalogDTO();
+        Ad adExpected = new Ad(new AdTitle("titulo2"), new AdDescription("descripcion2"), LocalDate.ofYearDay(2019, 2));
+        adExpected.createAdDTO().adVisits.createAdAccessesDTO().queueVisits.add(2);
+
+        Assert.assertEquals(adExpected, adCatalogDTO.adList.get(0));
+        Assert.assertEquals(100, adCatalog.createAdCatalogDTO().adList.size());
+    }
+
 }

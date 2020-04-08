@@ -12,6 +12,7 @@ public class Ad {
     private final AdTitle adTitle;
     private final AdDescription adDescription;
     private final LocalDate date;
+    AdVisits adVisits = new AdVisits();
 
     public Ad(AdTitle adTitle, AdDescription adDescription, LocalDate date) {
         if(checkTitleAndDescription(adTitle, adDescription)) throw new TitleAndDescriptionAreTheSameException();
@@ -32,6 +33,7 @@ public class Ad {
         adDTO.adTitle = this.adTitle;
         adDTO.adDescription = this.adDescription;
         adDTO.date = this.date;
+        adDTO.adVisits = this.adVisits;
         return adDTO;
     }
 
@@ -42,12 +44,13 @@ public class Ad {
         Ad ad = (Ad) o;
         return Objects.equals(adTitle, ad.adTitle) &&
                 Objects.equals(adDescription, ad.adDescription) &&
-                Objects.equals(date, ad.date);
+                Objects.equals(date, ad.date) &&
+                Objects.equals(adVisits, ad.adVisits);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(adTitle, adDescription, date);
+        return Objects.hash(adTitle, adDescription, date, adVisits);
     }
 
     @Override
@@ -56,6 +59,7 @@ public class Ad {
                 "adTitle=" + adTitle +
                 ", adDescription=" + adDescription +
                 ", date=" + date +
+                ", adVisits=" + adVisits +
                 '}';
     }
 }
