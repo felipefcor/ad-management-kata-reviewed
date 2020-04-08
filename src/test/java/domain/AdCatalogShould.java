@@ -1,7 +1,8 @@
 package domain;
 
 import domain.Ad.Ad;
-import domain.Ad.AdCatalog;
+import domain.Ad.AdCatalog.AdCatalog;
+import domain.Ad.AdCatalog.AdCatalogExpireByOldesAd;
 import domain.Ad.AdDescription;
 import domain.Ad.AdTitle;
 import domain.Ad.DTO.AdCatalogDTO;
@@ -93,7 +94,7 @@ public class AdCatalogShould {
 
     @Test
     public void remove_the_oldest_ad_when_the_catalog_reaches_100_ads(){
-        AdCatalog adCatalog = new AdCatalog();
+        AdCatalog adCatalog = new AdCatalogExpireByOldesAd();
         for (int i = 1; i < 103; i++) {
             Ad ad = new Ad(new AdTitle("titulo" + i), new AdDescription("descripcion"+ i), LocalDate.ofYearDay(2019, i));
             adCatalog.add(ad);
@@ -114,4 +115,5 @@ public class AdCatalogShould {
 
         Assert.assertEquals(adDTO, adCatalog.get(adTitle));
     }
+
 }
