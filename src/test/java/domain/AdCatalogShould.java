@@ -91,14 +91,15 @@ public class AdCatalogShould {
     }
 
     @Test
-    public void remove_the_oldest_ad_When_the_catalog_reaches_100_ads(){
+    public void remove_the_oldest_ad_when_the_catalog_reaches_100_ads(){
         AdCatalog adCatalog = new AdCatalog();
-        for (int i = 1; i < 150; i++) {
+        for (int i = 1; i < 103; i++) {
             Ad ad = new Ad(new AdTitle("titulo" + i), new AdDescription("descripcion"+ i), LocalDate.ofYearDay(2019, i));
             adCatalog.add(ad);
         }
+        AdCatalogDTO adCatalogDTO =  adCatalog.createAdCatalogDTO();
 
-        Assert.assertEquals(new Ad(new AdTitle("titulo99"), new AdDescription("descripcion99"), LocalDate.ofYearDay(2019, 99)), adCatalog.createAdCatalogDTO().adList.get(98));
+        Assert.assertEquals(new Ad(new AdTitle("titulo3"), new AdDescription("descripcion3"), LocalDate.ofYearDay(2019, 3)), adCatalogDTO.adList.get(0));
         Assert.assertEquals(100, adCatalog.createAdCatalogDTO().adList.size());
     }
 }

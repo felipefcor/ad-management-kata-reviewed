@@ -6,26 +6,24 @@ import domain.Ad.exceptions.AdDoesNotExistException;
 import domain.Ad.exceptions.AdExistsAlreadyException;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class AdCatalog {
     private List<Ad> adList = new ArrayList<>();
 
     public void add(Ad ad) {
-        if(this.adList.size() == 100) sortListAdsByDate();
+        if(adList.size() == 100) sortAndRemoveListAdsByDate();
         for (Ad adIter : adList) {
             AdDTO adDTO = adIter.createAdDTO();
             if(adDTO.adTitle.equals(ad.createAdDTO().adTitle) && adDTO.adDescription.equals(ad.createAdDTO().adDescription))
                 throw new AdExistsAlreadyException();
         }
-        this.adList.add(ad);
+        adList.add(ad);
       }
 
-    private void sortListAdsByDate() {
-        this.adList.remove(this.adList.size() -1);
-        this.adList.sort(new DateSorter());
+    private void sortAndRemoveListAdsByDate() {
+        adList.sort(new DateSorter());
+        adList.remove(this.adList.get(0));
     }
 
     public void remove(Ad ad) {
