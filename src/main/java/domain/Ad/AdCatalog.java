@@ -67,4 +67,12 @@ public class AdCatalog {
     public int hashCode() {
         return Objects.hash(adList);
     }
+
+    public AdDTO get(AdTitle adTitle) {
+        for (Ad ad : adList) {
+            AdDTO adDTO = ad.createAdDTO();
+            if(adDTO.adTitle.equals(adTitle)) return adDTO;
+        }
+        return null;
+    }
 }

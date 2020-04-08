@@ -5,6 +5,7 @@ import domain.Ad.AdCatalog;
 import domain.Ad.AdDescription;
 import domain.Ad.AdTitle;
 import domain.Ad.DTO.AdCatalogDTO;
+import domain.Ad.DTO.AdDTO;
 import domain.Ad.exceptions.AdDoesNotExistException;
 import domain.Ad.exceptions.AdExistsAlreadyException;
 import org.junit.Assert;
@@ -101,5 +102,16 @@ public class AdCatalogShould {
 
         Assert.assertEquals(new Ad(new AdTitle("titulo3"), new AdDescription("descripcion3"), LocalDate.ofYearDay(2019, 3)), adCatalogDTO.adList.get(0));
         Assert.assertEquals(100, adCatalog.createAdCatalogDTO().adList.size());
+    }
+
+    @Test
+    public void retrieve_a_concrete_ad(){
+        AdTitle adTitle = new AdTitle("titulo");
+        Ad ad = new Ad(adTitle, new AdDescription("descripcion"), LocalDate.now());
+        AdDTO adDTO = ad.createAdDTO();
+        AdCatalog adCatalog = new AdCatalog();
+        adCatalog.add(ad);
+
+        Assert.assertEquals(adDTO, adCatalog.get(adTitle));
     }
 }
