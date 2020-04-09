@@ -1,4 +1,4 @@
-package domain;
+package domain.ad;
 
 import domain.Ad.Ad;
 import domain.Ad.AdCatalog.AdCatalog;

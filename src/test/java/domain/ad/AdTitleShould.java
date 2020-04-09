@@ -1,4 +1,4 @@
-package domain;
+package domain.ad;
 
 import domain.Ad.valueObjects.AdTitle;
 import domain.Ad.exceptions.TitleTooLongException;

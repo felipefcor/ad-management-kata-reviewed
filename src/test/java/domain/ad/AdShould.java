@@ -1,4 +1,4 @@
-package domain;
+package domain.ad;
 
 import domain.Ad.Ad;
 import domain.Ad.valueObjects.AdDescription;
@@ -18,4 +18,5 @@ public class AdShould {
 
         Assertions.assertThrows(TitleAndDescriptionAreTheSameException.class, () -> new Ad(adTitle, adDescription, LocalDate.now()));
     }
+
 }
