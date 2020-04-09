@@ -16,6 +16,7 @@ import java.util.Objects;
 public class AdCatalog {
     private List<Ad> adList = new ArrayList<>();
     SortsAdsByCountry sortsAdsByCountry;
+    private List<AdCatalogObserver> adCatalogObservers = new ArrayList<>();
 
     public void add(Ad ad) {
         if(adList.size() == 100) sortAds();
@@ -33,11 +34,9 @@ public class AdCatalog {
 
     public void remove(Ad ad) {
          if(!adList.contains(ad)) throw new AdDoesNotExistException();
-         for (Ad adIter : this.adList) {
-            AdDTO adDTO = adIter.createAdDTO();
-            if(adDTO.adTitle.equals(ad.createAdDTO().adTitle)){
-                adList.remove(ad);
-            }
+            for (AdCatalogObserver adCatalogObserver : this.adCatalogObservers) {
+                adCatalogObserver.updateFavourites(ad);
+         adList.remove(ad);
     }
 }
     public AdCatalogDTO getList() {
@@ -52,6 +51,9 @@ public class AdCatalog {
             AdDTO adDTO = ad.createAdDTO();
             if(adDTO.date.isBefore(date)) remove(ad);
         }
+    }
+    public void addObserver(AdCatalogObserver adCatalogObserver){
+        this.adCatalogObservers.add(adCatalogObserver);
     }
 
     public AdCatalogDTO createAdCatalogDTO() {

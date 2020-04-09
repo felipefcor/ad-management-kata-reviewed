@@ -1,11 +1,13 @@
 package domain.ad;
 
 import domain.Ad.Ad;
+import domain.Ad.exceptions.TitleAndDescriptionAreTheSameException;
 import domain.Ad.valueObjects.AdDescription;
 import domain.Ad.valueObjects.AdTitle;
-import domain.Ad.exceptions.TitleAndDescriptionAreTheSameException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import user.User;
+import user.UserId;
 
 import java.time.LocalDate;
 
@@ -19,4 +21,18 @@ public class AdShould {
         Assertions.assertThrows(TitleAndDescriptionAreTheSameException.class, () -> new Ad(adTitle, adDescription, LocalDate.now()));
     }
 
+    @Test
+    public void add_and_retrive_the_favourite_users(){
+        Ad ad = new Ad(new AdTitle("titulo"), new AdDescription("descripcion"), LocalDate.now());
+        UserId userId = new UserId(1);
+        UserId userId2 = new UserId(2);
+        User user = new User(userId);
+        User user2 = new User(userId2);
+
+        ad.markedAsAFavouriteByAUser(user);
+        ad.markedAsAFavouriteByAUser(user2);
+
+
+        Assertions.assertEquals(2, ad.getUsersFavouritedInAnAd().size());
+    }
 }

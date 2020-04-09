@@ -1,6 +1,7 @@
 package user;
 
 import domain.Ad.Ad;
+import domain.Ad.AdCatalog.AdCatalog;
 import domain.Ad.valueObjects.AdDescription;
 import domain.Ad.valueObjects.AdTitle;
 import org.junit.Assert;
@@ -15,6 +16,26 @@ public class UserShould {
         User user = new User(userId);
         Ad ad = new Ad(new AdTitle("titulo"), new AdDescription("description"), LocalDate.now());
         user.addfavoriteAds(ad);
+
+        Assert.assertEquals(1, user.getFavoriteAds().size());
+    }
+    @Test
+    public void remove_ad_marked_as_favourite_when_the_ad_is_removed(){
+        UserId userId = new UserId(1);
+        User user = new User(userId);
+        Ad ad = new Ad(new AdTitle("titulo"), new AdDescription("description"), LocalDate.now());
+        Ad ad2 = new Ad(new AdTitle("titulo2"), new AdDescription("description2"), LocalDate.now());
+        user.addfavoriteAds(ad);
+        user.addfavoriteAds(ad2);
+        AdCatalog adCatalog = new AdCatalog();
+        Ad ad3 = new Ad(new AdTitle("titulo3"), new AdDescription("description3"), LocalDate.now());
+        Ad ad4 = new Ad(new AdTitle("titulo4"), new AdDescription("description4"), LocalDate.now());
+        adCatalog.add(ad3);
+        adCatalog.add(ad4);
+        adCatalog.add(ad);
+
+        adCatalog.addObserver(user);
+        adCatalog.remove(ad);
 
         Assert.assertEquals(1, user.getFavoriteAds().size());
     }
