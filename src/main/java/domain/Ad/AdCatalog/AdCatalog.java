@@ -1,15 +1,13 @@
 package domain.Ad.AdCatalog;
 
 import domain.Ad.Ad;
-import domain.Ad.valueObjects.AdTitle;
-import domain.Ad.DTO.AdCatalogDTO;
 import domain.Ad.DTO.AdDTO;
-import domain.Ad.DateSorter;
 import domain.Ad.exceptions.AdDoesNotExistException;
 import domain.Ad.exceptions.AdExistsAlreadyException;
 
-import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public class AdCatalog {
     private List<Ad> adList = new ArrayList<>();
