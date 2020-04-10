@@ -85,6 +85,7 @@ public class AdCatalog {
 
     public AdDTO get(AdTitle adTitle) {
         for (Ad ad : adList) {
+            ad.increaseAdVisits();
             AdDTO adDTO = ad.createAdDTO();
             if(adDTO.adTitle.equals(adTitle)) return adDTO;
         }

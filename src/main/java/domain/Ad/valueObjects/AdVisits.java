@@ -1,30 +1,17 @@
 package domain.Ad.valueObjects;
 
-import domain.Ad.DTO.AdVisitsDTO;
-
-import java.util.LinkedList;
 import java.util.Objects;
-import java.util.Queue;
 
 public class AdVisits {
 
-    Queue<Integer> queueVisits;
+    public Integer visits = 0;
 
-    public AdVisits(){
-        queueVisits = new LinkedList<Integer>();
-    }
-    private void visits(int access) {
-        queueVisits.add(access);
+    public void increaseVisits() {
+        visits++;
     }
 
-    private int getVisits() {
-        return queueVisits.size();
-    }
-
-    public AdVisitsDTO createAdAccessesDTO() {
-        AdVisitsDTO adVisitsDTO = new AdVisitsDTO();
-        adVisitsDTO.queueVisits = this.queueVisits;
-        return adVisitsDTO;
+    private int getVisits(){
+        return visits;
     }
 
     @Override
@@ -32,11 +19,18 @@ public class AdVisits {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AdVisits adVisits = (AdVisits) o;
-        return Objects.equals(queueVisits, adVisits.queueVisits);
+        return Objects.equals(visits, adVisits.visits);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(queueVisits);
+        return Objects.hash(visits);
+    }
+
+    @Override
+    public String toString() {
+        return "AdVisits{" +
+                "visits=" + visits +
+                '}';
     }
 }

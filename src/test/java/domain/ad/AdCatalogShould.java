@@ -125,12 +125,12 @@ public class AdCatalogShould {
         AdCatalog adCatalog = new AdCatalogExpireByLessVisitedAd();
         for (int i = 1; i < 102; i++) {
             Ad ad = new Ad(new AdTitle("titulo" + i), new AdDescription("descripcion"+ i), LocalDate.ofYearDay(2019, i));
-            ad.createAdDTO().adVisits.createAdAccessesDTO().queueVisits.add(i);
+            ad.createAdDTO().adVisits.visits = 1 + i;
             adCatalog.add(ad);
         }
         AdCatalogDTO adCatalogDTO =  adCatalog.createAdCatalogDTO();
         Ad adExpected = new Ad(new AdTitle("titulo2"), new AdDescription("descripcion2"), LocalDate.ofYearDay(2019, 2));
-        adExpected.createAdDTO().adVisits.createAdAccessesDTO().queueVisits.add(2);
+        adExpected.createAdDTO().adVisits.visits = 3;
 
         Assert.assertEquals(adExpected, adCatalogDTO.adList.get(0));
         Assert.assertEquals(100, adCatalog.createAdCatalogDTO().adList.size());
