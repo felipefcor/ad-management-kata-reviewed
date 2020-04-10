@@ -7,7 +7,7 @@ import domain.Ad.exceptions.TitleAndDescriptionAreTheSameException;
 import domain.Ad.valueObjects.AdDescription;
 import domain.Ad.valueObjects.AdTitle;
 import domain.Ad.valueObjects.AdVisits;
-import domain.User.User;
+import domain.User.UserId;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ public class Ad {
     private final LocalDate date;
     private AdVisits adVisits = new AdVisits();
 
-    private List<User> favouriteUsers = new ArrayList<>();
+    private List<UserId> favouriteUsers = new ArrayList<>();
 
     public Ad(AdTitle adTitle, AdDescription adDescription, LocalDate date) {
         if (checkTitleAndDescription(adTitle, adDescription)) throw new TitleAndDescriptionAreTheSameException();
@@ -37,11 +37,11 @@ public class Ad {
         return false;
     }
 
-    public void markedAsAFavouriteByAUser(User user) {
-        this.favouriteUsers.add(user);
+    public void markedAsAFavouriteByAUser(UserId userId) {
+        this.favouriteUsers.add(userId);
     }
 
-    public List<User> getUsersFavouritedInAnAd() {
+    public List<UserId> getUsersFavouritedInAnAd() {
         return this.favouriteUsers;
     }
 
