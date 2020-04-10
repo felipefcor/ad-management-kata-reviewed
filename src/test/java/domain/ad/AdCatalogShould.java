@@ -112,12 +112,13 @@ public class AdCatalogShould {
     @Test
     public void retrieve_a_concrete_ad(){
         AdTitle adTitle = new AdTitle("titulo");
-        Ad ad = new Ad(adTitle, new AdDescription("descripcion"), LocalDate.now());
+        AdDescription adDescription = new AdDescription("descripcion");
+        Ad ad = new Ad(adTitle, adDescription, LocalDate.now());
         AdDTO adDTO = ad.createAdDTO();
         AdCatalog adCatalog = new AdCatalog();
         adCatalog.add(ad);
 
-        Assert.assertEquals(adDTO, adCatalog.get(adTitle));
+        Assert.assertEquals(adDTO, adCatalog.get(adTitle, adDescription));
     }
 
     @Test
@@ -136,4 +137,20 @@ public class AdCatalogShould {
         Assert.assertEquals(100, adCatalog.createAdCatalogDTO().adList.size());
     }
 
+    @Test
+    public void retrieve_a_concrete_ad_and_increase_visits(){
+        AdTitle adTitle = new AdTitle("titulo");
+        AdDescription adDescription = new AdDescription("descripcion");
+        Ad ad = new Ad(adTitle, adDescription, LocalDate.now());
+        AdCatalog adCatalog = new AdCatalog();
+        adCatalog.add(ad);
+        adCatalog.get(adTitle, adDescription);
+
+        adCatalog.get(adTitle, adDescription);
+        int visitsExpected = ad.createAdDTO().adVisits.visits;
+
+        Assert.assertEquals(2, visitsExpected);
+        }
 }
+
+
