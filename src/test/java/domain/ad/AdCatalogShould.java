@@ -80,15 +80,18 @@ public class AdCatalogShould {
     @Test
     public void purge_the_last_ad_added() {
         LocalDate dateTest = LocalDate.of(2020, 4, 1);
-        Ad ad = new Ad(new AdTitle("titulo2"), new AdDescription("descripcion2"), dateTest);
-        Ad ad2 = new Ad(new AdTitle("titulo"), new AdDescription("descripcion"), LocalDate.now());
+        LocalDate dateTest2 = LocalDate.of(2020, 4, 2);
+        Ad ad = new Ad(new AdTitle("titulo"), new AdDescription("descripcion"), dateTest);
+        Ad ad2 = new Ad(new AdTitle("titulo2"), new AdDescription("descripcion2"), dateTest2);
+        Ad ad3 = new Ad(new AdTitle("titulo3"), new AdDescription("descripcion3"), LocalDate.now());
         AdCatalog adCatalog = new AdCatalog();
         adCatalog.add(ad);
         adCatalog.add(ad2);
+        adCatalog.add(ad3);
 
         adCatalog.purge(LocalDate.now());
 
-        Assert.assertEquals(ad2, adCatalog.createAdCatalogDTO().adList.get(0));
+        Assert.assertEquals(ad3, adCatalog.createAdCatalogDTO().adList.get(0));
         Assert.assertEquals(1, adCatalog.createAdCatalogDTO().adList.size());
 
     }

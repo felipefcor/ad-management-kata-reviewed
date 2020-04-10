@@ -6,8 +6,8 @@ import domain.Ad.valueObjects.AdDescription;
 import domain.Ad.valueObjects.AdTitle;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import user.User;
-import user.UserId;
+import domain.User.User;
+import domain.User.UserId;
 
 import java.time.LocalDate;
 

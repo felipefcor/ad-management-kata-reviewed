@@ -7,7 +7,7 @@ import domain.Ad.exceptions.TitleAndDescriptionAreTheSameException;
 import domain.Ad.valueObjects.AdDescription;
 import domain.Ad.valueObjects.AdTitle;
 import domain.Ad.valueObjects.AdVisits;
-import user.User;
+import domain.User.User;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package user;
+package domain.User;
 
 import domain.Ad.Ad;
 import domain.Ad.AdCatalog.AdCatalogObserver;

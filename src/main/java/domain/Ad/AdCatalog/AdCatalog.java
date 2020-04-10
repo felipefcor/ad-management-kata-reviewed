@@ -10,6 +10,7 @@ import domain.Ad.valueObjects.AdTitle;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
@@ -34,10 +35,10 @@ public class AdCatalog {
 
     public void remove(Ad ad) {
          if(!adList.contains(ad)) throw new AdDoesNotExistException();
-            for (AdCatalogObserver adCatalogObserver : this.adCatalogObservers) {
-                adCatalogObserver.updateFavourites(ad);
-         adList.remove(ad);
-    }
+         for (AdCatalogObserver adCatalogObserver : this.adCatalogObservers) {
+            adCatalogObserver.updateFavourites(ad);
+         }
+         if(adList.contains(ad)) adList.remove(ad);
 }
     public AdCatalogDTO getList() {
         AdCatalogDTO adCatalogDTO = this.createAdCatalogDTO();
@@ -45,13 +46,20 @@ public class AdCatalog {
         return adCatalogDTO;
     }
 
+
     public void purge(LocalDate date) {
         adList.sort(new DateSorter());
-        for (Ad ad : adList) {
-            AdDTO adDTO = ad.createAdDTO();
-            if(adDTO.date.isBefore(date)) remove(ad);
+        for (Iterator<Ad> iterator = adList.iterator(); iterator.hasNext(); ) {
+            Ad ad = iterator.next();
+            if(ad.createAdDTO().date.isBefore(date)) {
+                for (AdCatalogObserver adCatalogObserver : this.adCatalogObservers) {
+                    adCatalogObserver.updateFavourites(ad);
+                }
+                iterator.remove();
+            }
         }
     }
+
     public void addObserver(AdCatalogObserver adCatalogObserver){
         this.adCatalogObservers.add(adCatalogObserver);
     }

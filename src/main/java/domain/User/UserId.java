@@ -1,4 +1,4 @@
-package user;
+package domain.User;
 
 public class UserId {
     private int userId;
