@@ -7,7 +7,7 @@ import domain.Ad.exceptions.TitleAndDescriptionAreTheSameException;
 import domain.Ad.valueObjects.AdDescription;
 import domain.Ad.valueObjects.AdTitle;
 import domain.Ad.valueObjects.AdVisits;
-import domain.User.User;
+import domain.User.UserId;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -19,20 +19,34 @@ public class Ad {
     private final AdDescription adDescription;
     private final LocalDate date;
     private AdVisits adVisits = new AdVisits();
-    private List<User> favouriteUsers = new ArrayList<>();
+
+    private List<UserId> favouriteUsers = new ArrayList<>();
 
     public Ad(AdTitle adTitle, AdDescription adDescription, LocalDate date) {
-        if(checkTitleAndDescription(adTitle, adDescription)) throw new TitleAndDescriptionAreTheSameException();
+        if (checkTitleAndDescription(adTitle, adDescription)) throw new TitleAndDescriptionAreTheSameException();
         this.adTitle = adTitle;
         this.adDescription = adDescription;
         this.date = date;
     }
 
+
     private boolean checkTitleAndDescription(AdTitle adTitle, AdDescription adDescription) {
         AdDTOTitle adDTOTitle = adTitle.createTitleDTO();
         AdDTODescription adDTODescription = adDescription.createDescriptionDTO();
-        if(adDTOTitle.adTitle == adDTODescription.adDescription) return true;
+        if (adDTOTitle.adTitle == adDTODescription.adDescription) return true;
         return false;
+    }
+
+    public void markedAsAFavouriteByAUser(UserId userId) {
+        this.favouriteUsers.add(userId);
+    }
+
+    public List<UserId> getUsersFavouritedInAnAd() {
+        return this.favouriteUsers;
+    }
+
+    public void increaseAdVisits() {
+        adVisits.increaseVisits();
     }
 
     public AdDTO createAdDTO() {
@@ -52,12 +66,13 @@ public class Ad {
         return Objects.equals(adTitle, ad.adTitle) &&
                 Objects.equals(adDescription, ad.adDescription) &&
                 Objects.equals(date, ad.date) &&
-                Objects.equals(adVisits, ad.adVisits);
+                Objects.equals(adVisits, ad.adVisits) &&
+                Objects.equals(favouriteUsers, ad.favouriteUsers);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(adTitle, adDescription, date, adVisits);
+        return Objects.hash(adTitle, adDescription, date, adVisits, favouriteUsers);
     }
 
     @Override
@@ -70,11 +85,4 @@ public class Ad {
                 '}';
     }
 
-    public void markedAsAFavouriteByAUser(User user) {
-        this.favouriteUsers.add(user);
-    }
-
-    public List<User> getUsersFavouritedInAnAd() {
-        return this.favouriteUsers;
-    }
 }

@@ -2,6 +2,7 @@ package domain.user;
 
 import domain.Ad.Ad;
 import domain.Ad.AdCatalog.AdCatalog;
+import domain.Ad.AdCatalog.SortAndRemoveTheLastAd;
 import domain.Ad.valueObjects.AdDescription;
 import domain.Ad.valueObjects.AdTitle;
 import domain.User.User;
@@ -29,7 +30,7 @@ public class UserShould {
         Ad ad2 = new Ad(new AdTitle("titulo2"), new AdDescription("description2"), LocalDate.now());
         user.addfavoriteAds(ad);
         user.addfavoriteAds(ad2);
-        AdCatalog adCatalog = new AdCatalog();
+        AdCatalog adCatalog = new AdCatalog(new SortAndRemoveTheLastAd());
         Ad ad3 = new Ad(new AdTitle("titulo3"), new AdDescription("description3"), LocalDate.now());
         Ad ad4 = new Ad(new AdTitle("titulo4"), new AdDescription("description4"), LocalDate.now());
         adCatalog.add(ad3);
@@ -55,7 +56,7 @@ public class UserShould {
         user.addfavoriteAds(ad);
         user.addfavoriteAds(ad2);
         user.addfavoriteAds(ad3);
-        AdCatalog adCatalog = new AdCatalog();
+        AdCatalog adCatalog = new AdCatalog(new SortAndRemoveTheLastAd());
         Ad ad4 = new Ad(new AdTitle("titulo4"), new AdDescription("description4"), dateTest4);
         adCatalog.add(ad);
         adCatalog.add(ad4);

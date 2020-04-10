@@ -1,9 +1,7 @@
 package domain.ad;
 
 import domain.Ad.Ad;
-import domain.Ad.AdCatalog.AdCatalog;
-import domain.Ad.AdCatalog.AdCatalogExpireByLessVisitedAd;
-import domain.Ad.AdCatalog.AdCatalogExpireByOldesAd;
+import domain.Ad.AdCatalog.*;
 import domain.Ad.valueObjects.AdDescription;
 import domain.Ad.valueObjects.AdTitle;
 import domain.Ad.DTO.AdCatalogDTO;
@@ -25,7 +23,7 @@ public class AdCatalogShould {
         AdDescription adDescription2 = new AdDescription("descipción2");
         Ad ad1 = new Ad(adTitle, adDescription, LocalDate.now());
         Ad ad2 = new Ad(adTitle2, adDescription2, LocalDate.now());
-        AdCatalog adCatalog = new AdCatalog();
+        AdCatalog adCatalog = new AdCatalog(new SortAndRemoveTheLastAd());
         AdCatalogDTO adCatalogDTO = adCatalog.createAdCatalogDTO();
 
         adCatalog.add(ad1);
@@ -39,7 +37,7 @@ public class AdCatalogShould {
     public void get_the_list_of_existent_ads() {
         Ad ad = new Ad(new AdTitle("titulo"), new AdDescription("descripcion"), LocalDate.now());
         Ad ad2 = new Ad(new AdTitle("titulo1"), new AdDescription("descripcion1"), LocalDate.now());
-        AdCatalog adCatalog = new AdCatalog();
+        AdCatalog adCatalog = new AdCatalog(new SortAndRemoveTheLastAd());
         adCatalog.add(ad);
         adCatalog.add(ad2);
         AdCatalogDTO adCatalogDTOexpected = adCatalog.createAdCatalogDTO();
@@ -57,7 +55,7 @@ public class AdCatalogShould {
         AdTitle adTitle = new AdTitle("Titulo");
         AdDescription adDescription = new AdDescription("descipción");
         Ad ad = new Ad(adTitle, adDescription, LocalDate.now());
-        AdCatalog adCatalog = new AdCatalog();
+        AdCatalog adCatalog = new AdCatalog(new SortAndRemoveTheLastAd());
 
         Assertions.assertThrows(AdDoesNotExistException.class, () -> adCatalog.remove(ad));
     }
@@ -70,7 +68,7 @@ public class AdCatalogShould {
         AdDescription adDescription2 = new AdDescription("descripcion");
         Ad ad1 = new Ad(adTitle, adDescription, LocalDate.now());
         Ad ad2 = new Ad(adTitle2, adDescription2, LocalDate.now());
-       AdCatalog adCatalog = new AdCatalog();
+       AdCatalog adCatalog = new AdCatalog(new SortAndRemoveTheLastAd());
 
         adCatalog.add(ad1);
 
@@ -84,7 +82,7 @@ public class AdCatalogShould {
         Ad ad = new Ad(new AdTitle("titulo"), new AdDescription("descripcion"), dateTest);
         Ad ad2 = new Ad(new AdTitle("titulo2"), new AdDescription("descripcion2"), dateTest2);
         Ad ad3 = new Ad(new AdTitle("titulo3"), new AdDescription("descripcion3"), LocalDate.now());
-        AdCatalog adCatalog = new AdCatalog();
+        AdCatalog adCatalog = new AdCatalog(new SortAndRemoveTheLastAd());
         adCatalog.add(ad);
         adCatalog.add(ad2);
         adCatalog.add(ad3);
@@ -98,7 +96,7 @@ public class AdCatalogShould {
 
     @Test
     public void remove_the_oldest_ad_when_the_catalog_reaches_100_ads(){
-        AdCatalog adCatalog = new AdCatalogExpireByOldesAd();
+        AdCatalog adCatalog = new AdCatalog(new SortAndRemoveTheLastAd());
         for (int i = 1; i < 103; i++) {
             Ad ad = new Ad(new AdTitle("titulo" + i), new AdDescription("descripcion"+ i), LocalDate.ofYearDay(2019, i));
             adCatalog.add(ad);
@@ -112,28 +110,45 @@ public class AdCatalogShould {
     @Test
     public void retrieve_a_concrete_ad(){
         AdTitle adTitle = new AdTitle("titulo");
-        Ad ad = new Ad(adTitle, new AdDescription("descripcion"), LocalDate.now());
+        AdDescription adDescription = new AdDescription("descripcion");
+        Ad ad = new Ad(adTitle, adDescription, LocalDate.now());
         AdDTO adDTO = ad.createAdDTO();
-        AdCatalog adCatalog = new AdCatalog();
+        AdCatalog adCatalog = new AdCatalog(new SortAndRemoveTheLastAd());
         adCatalog.add(ad);
 
-        Assert.assertEquals(adDTO, adCatalog.get(adTitle));
+        Assert.assertEquals(adDTO, adCatalog.get(adTitle, adDescription));
     }
 
     @Test
     public void remove_the_less_visited_ad_when_catalog_reaches_100_ads(){
-        AdCatalog adCatalog = new AdCatalogExpireByLessVisitedAd();
+        AdCatalog adCatalog = new AdCatalog(new SortAndRemoveTheLessVisitedAd());
         for (int i = 1; i < 102; i++) {
             Ad ad = new Ad(new AdTitle("titulo" + i), new AdDescription("descripcion"+ i), LocalDate.ofYearDay(2019, i));
-            ad.createAdDTO().adVisits.createAdAccessesDTO().queueVisits.add(i);
+            ad.createAdDTO().adVisits.visits = 1 + i;
             adCatalog.add(ad);
         }
         AdCatalogDTO adCatalogDTO =  adCatalog.createAdCatalogDTO();
         Ad adExpected = new Ad(new AdTitle("titulo2"), new AdDescription("descripcion2"), LocalDate.ofYearDay(2019, 2));
-        adExpected.createAdDTO().adVisits.createAdAccessesDTO().queueVisits.add(2);
+        adExpected.createAdDTO().adVisits.visits = 3;
 
         Assert.assertEquals(adExpected, adCatalogDTO.adList.get(0));
         Assert.assertEquals(100, adCatalog.createAdCatalogDTO().adList.size());
     }
 
+    @Test
+    public void retrieve_a_concrete_ad_and_increase_visits(){
+        AdTitle adTitle = new AdTitle("titulo");
+        AdDescription adDescription = new AdDescription("descripcion");
+        Ad ad = new Ad(adTitle, adDescription, LocalDate.now());
+        AdCatalog adCatalog = new AdCatalog(new SortAndRemoveTheLastAd());
+        adCatalog.add(ad);
+        adCatalog.get(adTitle, adDescription);
+
+        adCatalog.get(adTitle, adDescription);
+        int visitsExpected = ad.createAdDTO().adVisits.visits;
+
+        Assert.assertEquals(2, visitsExpected);
+        }
 }
+
+

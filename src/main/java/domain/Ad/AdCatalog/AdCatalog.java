@@ -6,6 +6,7 @@ import domain.Ad.DTO.AdDTO;
 import domain.Ad.DateSorter;
 import domain.Ad.exceptions.AdDoesNotExistException;
 import domain.Ad.exceptions.AdExistsAlreadyException;
+import domain.Ad.valueObjects.AdDescription;
 import domain.Ad.valueObjects.AdTitle;
 
 import java.time.LocalDate;
@@ -18,6 +19,10 @@ public class AdCatalog {
     private List<Ad> adList = new ArrayList<>();
     SortsAdsByCountry sortsAdsByCountry;
     private List<AdCatalogObserver> adCatalogObservers = new ArrayList<>();
+
+    public AdCatalog(SortsAdsByCountry sortsAdsByCountry) {
+        this.sortsAdsByCountry = sortsAdsByCountry;
+    }
 
     public void add(Ad ad) {
         if(adList.size() == 100) sortAds();
@@ -83,10 +88,11 @@ public class AdCatalog {
         return Objects.hash(adList);
     }
 
-    public AdDTO get(AdTitle adTitle) {
+    public AdDTO get(AdTitle adTitle, AdDescription adDescription) {
         for (Ad ad : adList) {
+            ad.increaseAdVisits();
             AdDTO adDTO = ad.createAdDTO();
-            if(adDTO.adTitle.equals(adTitle)) return adDTO;
+            if(adDTO.adTitle.equals(adTitle) && adDTO.adDescription.equals(ad.createAdDTO().adDescription)) return adDTO;
         }
         return null;
     }
