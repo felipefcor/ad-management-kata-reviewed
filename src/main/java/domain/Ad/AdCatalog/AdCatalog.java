@@ -20,6 +20,10 @@ public class AdCatalog {
     SortsAdsByCountry sortsAdsByCountry;
     private List<AdCatalogObserver> adCatalogObservers = new ArrayList<>();
 
+    public AdCatalog(SortsAdsByCountry sortsAdsByCountry) {
+        this.sortsAdsByCountry = sortsAdsByCountry;
+    }
+
     public void add(Ad ad) {
         if(adList.size() == 100) sortAds();
         for (Ad adIter : adList) {
