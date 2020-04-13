@@ -56,13 +56,22 @@ public class AdCatalog {
         adList.sort(new DateSorter());
         for (Iterator<Ad> iterator = adList.iterator(); iterator.hasNext(); ) {
             Ad ad = iterator.next();
-            if(ad.createAdDTO().date.isBefore(date)) {
+            if(ad.dateIsBefore(date)) {
                 for (AdCatalogObserver adCatalogObserver : this.adCatalogObservers) {
                     adCatalogObserver.updateFavourites(ad);
                 }
                 iterator.remove();
             }
         }
+    }
+
+    public AdDTO get(AdTitle adTitle, AdDescription adDescription) {
+        for (Ad ad : adList) {
+            ad.increaseAdVisits();
+            AdDTO adDTO = ad.createAdDTO();
+            if(adDTO.adTitle.equals(adTitle) && adDTO.adDescription.equals(ad.createAdDTO().adDescription)) return adDTO;
+        }
+        return null;
     }
 
     public void addObserver(AdCatalogObserver adCatalogObserver){
@@ -86,14 +95,5 @@ public class AdCatalog {
     @Override
     public int hashCode() {
         return Objects.hash(adList);
-    }
-
-    public AdDTO get(AdTitle adTitle, AdDescription adDescription) {
-        for (Ad ad : adList) {
-            ad.increaseAdVisits();
-            AdDTO adDTO = ad.createAdDTO();
-            if(adDTO.adTitle.equals(adTitle) && adDTO.adDescription.equals(ad.createAdDTO().adDescription)) return adDTO;
-        }
-        return null;
     }
 }

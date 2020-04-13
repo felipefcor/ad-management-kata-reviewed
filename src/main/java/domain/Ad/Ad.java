@@ -45,6 +45,11 @@ public class Ad {
         adVisits.increaseVisits();
     }
 
+    public boolean dateIsBefore(LocalDate dateToCompare){
+        if(this.date.isBefore(dateToCompare)) return true;
+        return false;
+    }
+
     public AdDTO createAdDTO() {
         AdDTO adDTO = new AdDTO();
         adDTO.adTitle = this.adTitle;
