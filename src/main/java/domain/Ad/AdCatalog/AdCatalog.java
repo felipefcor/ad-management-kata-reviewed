@@ -63,7 +63,7 @@ public class AdCatalog {
     public Ad get(AdTitle adTitle, AdDescription adDescription) {
         for (Ad ad : adList) {
             ad.increaseAdVisits();
-            if(ad.titleAndDescription().equals(adTitle.getAdTitle() + adDescription.getAdDescription())); return ad;
+            if(ad.titleAndDescription().equals(adTitle.getAdTitle()+adDescription.getAdDescription())) return ad;
         }
         return null;
     }

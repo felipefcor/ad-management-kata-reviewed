@@ -69,7 +69,7 @@ public class AdCatalogShould {
         AdDescription adDescription2 = new AdDescription("descripcion");
         Ad ad1 = new Ad(adTitle, adDescription, LocalDate.now());
         Ad ad2 = new Ad(adTitle2, adDescription2, LocalDate.now());
-       AdCatalog adCatalog = new AdCatalog(new SortAndRemoveTheLastAd());
+        AdCatalog adCatalog = new AdCatalog(new SortAndRemoveTheLastAd());
 
         adCatalog.add(ad1);
 
