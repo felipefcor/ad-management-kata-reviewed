@@ -27,7 +27,6 @@ public class Ad {
         if (checkTitleAndDescription()) throw new TitleAndDescriptionAreTheSameException();
     }
 
-
     private boolean checkTitleAndDescription() {
         if (adTitle.getAdTitle().equals(adDescription.getAdDescription())) return true;
         return false;

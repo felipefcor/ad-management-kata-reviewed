@@ -14,6 +14,7 @@ import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class AdCatalogShould {
     @Test
@@ -41,13 +42,12 @@ public class AdCatalogShould {
         AdCatalog adCatalog = new AdCatalog(new SortAndRemoveTheLastAd());
         adCatalog.add(ad);
         adCatalog.add(ad2);
-        AdCatalogDTO adCatalogDTOexpected = adCatalog.createAdCatalogDTO();
-        AdCatalogDTO adCatalogDTOactual;
+        AdCatalogDTO adCatalogDTOactual = adCatalog.createAdCatalogDTO();;
 
-        adCatalogDTOactual = adCatalog.getList();
+        List<Ad> adCatalogExpected = adCatalog.getList();
 
-        Assert.assertEquals(adCatalogDTOexpected.adList.get(0), adCatalogDTOactual.adList.get(0));
-        Assert.assertEquals(adCatalogDTOexpected.adList.get(1), adCatalogDTOactual.adList.get(1));
+        Assert.assertEquals(adCatalogExpected.get(0), adCatalogDTOactual.adList.get(0));
+        Assert.assertEquals(adCatalogExpected.get(1), adCatalogDTOactual.adList.get(1));
 
     }
 

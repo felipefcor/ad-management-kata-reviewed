@@ -42,10 +42,8 @@ public class AdCatalog {
          }
          if(adList.contains(ad)) adList.remove(ad);
 }
-    public AdCatalogDTO getList() {
-        AdCatalogDTO adCatalogDTO = this.createAdCatalogDTO();
-        adCatalogDTO.adList = this.adList;
-        return adCatalogDTO;
+    public List<Ad> getList() {
+         return this.adList;
     }
 
 
