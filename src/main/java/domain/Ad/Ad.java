@@ -32,6 +32,9 @@ public class Ad {
         if (adTitle.getAdTitle().equals(adDescription.getAdDescription())) return true;
         return false;
     }
+    public String titleAndDescription(){
+        return adTitle.getAdTitle() + adDescription.getAdDescription();
+    }
 
     public void markedAsAFavouriteByAUser(UserId userId) {
         this.favouriteUsers.add(userId);

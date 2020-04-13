@@ -1,13 +1,14 @@
 package domain.ad;
 
 import domain.Ad.Ad;
-import domain.Ad.AdCatalog.*;
-import domain.Ad.valueObjects.AdDescription;
-import domain.Ad.valueObjects.AdTitle;
+import domain.Ad.AdCatalog.AdCatalog;
+import domain.Ad.AdCatalog.SortAndRemoveTheLastAd;
+import domain.Ad.AdCatalog.SortAndRemoveTheLessVisitedAd;
 import domain.Ad.DTO.AdCatalogDTO;
-import domain.Ad.DTO.AdDTO;
 import domain.Ad.exceptions.AdDoesNotExistException;
 import domain.Ad.exceptions.AdExistsAlreadyException;
+import domain.Ad.valueObjects.AdDescription;
+import domain.Ad.valueObjects.AdTitle;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
@@ -112,11 +113,10 @@ public class AdCatalogShould {
         AdTitle adTitle = new AdTitle("titulo");
         AdDescription adDescription = new AdDescription("descripcion");
         Ad ad = new Ad(adTitle, adDescription, LocalDate.now());
-        AdDTO adDTO = ad.createAdDTO();
         AdCatalog adCatalog = new AdCatalog(new SortAndRemoveTheLastAd());
         adCatalog.add(ad);
 
-        Assert.assertEquals(adDTO, adCatalog.get(adTitle, adDescription));
+        Assert.assertEquals(ad, adCatalog.get(adTitle, adDescription));
     }
 
     @Test

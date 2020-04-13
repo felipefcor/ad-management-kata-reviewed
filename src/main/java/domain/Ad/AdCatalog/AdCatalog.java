@@ -2,7 +2,6 @@ package domain.Ad.AdCatalog;
 
 import domain.Ad.Ad;
 import domain.Ad.DTO.AdCatalogDTO;
-import domain.Ad.DTO.AdDTO;
 import domain.Ad.DateSorter;
 import domain.Ad.exceptions.AdDoesNotExistException;
 import domain.Ad.exceptions.AdExistsAlreadyException;
@@ -27,9 +26,7 @@ public class AdCatalog {
     public void add(Ad ad) {
         if(adList.size() == 100) sortAds();
         for (Ad adIter : adList) {
-            AdDTO adDTO = adIter.createAdDTO();
-            if(adDTO.adTitle.equals(ad.createAdDTO().adTitle) && adDTO.adDescription.equals(ad.createAdDTO().adDescription))
-                throw new AdExistsAlreadyException();
+            if(adIter.titleAndDescription().equals(ad.titleAndDescription())) throw new AdExistsAlreadyException();
         }
         adList.add(ad);
       }
@@ -65,11 +62,10 @@ public class AdCatalog {
         }
     }
 
-    public AdDTO get(AdTitle adTitle, AdDescription adDescription) {
+    public Ad get(AdTitle adTitle, AdDescription adDescription) {
         for (Ad ad : adList) {
             ad.increaseAdVisits();
-            AdDTO adDTO = ad.createAdDTO();
-            if(adDTO.adTitle.equals(adTitle) && adDTO.adDescription.equals(ad.createAdDTO().adDescription)) return adDTO;
+            if(ad.titleAndDescription().equals(adTitle.getAdTitle() + adDescription.getAdDescription())); return ad;
         }
         return null;
     }
