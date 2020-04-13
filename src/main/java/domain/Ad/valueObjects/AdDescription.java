@@ -1,7 +1,5 @@
 package domain.Ad.valueObjects;
 
-import domain.Ad.DTO.AdDTODescription;
-
 import java.util.Objects;
 
 public class AdDescription {
@@ -13,12 +11,6 @@ public class AdDescription {
 
     public String getAdDescription() {
         return adDescription;
-    }
-
-    public AdDTODescription createDescriptionDTO() {
-        AdDTODescription adDTODescription = new AdDTODescription();
-        adDTODescription.adDescription = this.adDescription;
-        return adDTODescription;
     }
 
     @Override
