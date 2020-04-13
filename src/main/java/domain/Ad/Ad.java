@@ -31,8 +31,14 @@ public class Ad {
         if (adTitle.getAdTitle().equals(adDescription.getAdDescription())) return true;
         return false;
     }
-    public String titleAndDescription(){
-        return adTitle.getAdTitle() + adDescription.getAdDescription();
+    public boolean checkTitle(AdTitle title){
+        if(title.getAdTitle().equals(adTitle.getAdTitle())) return true;
+        return false;
+    }
+
+    public boolean checkDescription(AdDescription description){
+        if(description.getAdDescription().equals(adDescription.getAdDescription())) return true;
+        return false;
     }
 
     public void markedAsAFavouriteByAUser(UserId userId) {
