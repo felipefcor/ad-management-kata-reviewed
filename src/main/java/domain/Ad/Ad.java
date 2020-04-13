@@ -1,8 +1,6 @@
 package domain.Ad;
 
 import domain.Ad.DTO.AdDTO;
-import domain.Ad.DTO.AdDTODescription;
-import domain.Ad.DTO.AdDTOTitle;
 import domain.Ad.exceptions.TitleAndDescriptionAreTheSameException;
 import domain.Ad.valueObjects.AdDescription;
 import domain.Ad.valueObjects.AdTitle;
@@ -23,17 +21,23 @@ public class Ad {
     private List<UserId> favouriteUsers = new ArrayList<>();
 
     public Ad(AdTitle adTitle, AdDescription adDescription, LocalDate date) {
-        if (checkTitleAndDescription(adTitle, adDescription)) throw new TitleAndDescriptionAreTheSameException();
         this.adTitle = adTitle;
         this.adDescription = adDescription;
         this.date = date;
+        if (checkTitleAndDescription()) throw new TitleAndDescriptionAreTheSameException();
     }
 
+    private boolean checkTitleAndDescription() {
+        if (adTitle.getAdTitle().equals(adDescription.getAdDescription())) return true;
+        return false;
+    }
+    public boolean checkTitle(AdTitle title){
+        if(title.getAdTitle().equals(adTitle.getAdTitle())) return true;
+        return false;
+    }
 
-    private boolean checkTitleAndDescription(AdTitle adTitle, AdDescription adDescription) {
-        AdDTOTitle adDTOTitle = adTitle.createTitleDTO();
-        AdDTODescription adDTODescription = adDescription.createDescriptionDTO();
-        if (adDTOTitle.adTitle == adDTODescription.adDescription) return true;
+    public boolean checkDescription(AdDescription description){
+        if(description.getAdDescription().equals(adDescription.getAdDescription())) return true;
         return false;
     }
 
@@ -47,6 +51,11 @@ public class Ad {
 
     public void increaseAdVisits() {
         adVisits.increaseVisits();
+    }
+
+    public boolean dateIsBefore(LocalDate dateToCompare){
+        if(this.date.isBefore(dateToCompare)) return true;
+        return false;
     }
 
     public AdDTO createAdDTO() {

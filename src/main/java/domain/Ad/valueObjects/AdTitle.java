@@ -1,6 +1,5 @@
 package domain.Ad.valueObjects;
 
-import domain.Ad.DTO.AdDTOTitle;
 import domain.Ad.exceptions.TitleTooLongException;
 
 import java.util.Objects;
@@ -13,10 +12,8 @@ public class AdTitle {
         this.adTitle = adTitle;
     }
 
-    public AdDTOTitle createTitleDTO() {
-        AdDTOTitle adDTOTitle = new AdDTOTitle();
-        adDTOTitle.adTitle = this.adTitle;
-        return adDTOTitle;
+    public String getAdTitle() {
+        return adTitle;
     }
 
     @Override

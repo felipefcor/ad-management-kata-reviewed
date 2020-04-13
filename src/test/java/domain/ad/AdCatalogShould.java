@@ -1,18 +1,20 @@
 package domain.ad;
 
 import domain.Ad.Ad;
-import domain.Ad.AdCatalog.*;
-import domain.Ad.valueObjects.AdDescription;
-import domain.Ad.valueObjects.AdTitle;
+import domain.Ad.AdCatalog.AdCatalog;
+import domain.Ad.AdCatalog.SortAndRemoveTheLastAd;
+import domain.Ad.AdCatalog.SortAndRemoveTheLessVisitedAd;
 import domain.Ad.DTO.AdCatalogDTO;
-import domain.Ad.DTO.AdDTO;
 import domain.Ad.exceptions.AdDoesNotExistException;
 import domain.Ad.exceptions.AdExistsAlreadyException;
+import domain.Ad.valueObjects.AdDescription;
+import domain.Ad.valueObjects.AdTitle;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class AdCatalogShould {
     @Test
@@ -40,13 +42,12 @@ public class AdCatalogShould {
         AdCatalog adCatalog = new AdCatalog(new SortAndRemoveTheLastAd());
         adCatalog.add(ad);
         adCatalog.add(ad2);
-        AdCatalogDTO adCatalogDTOexpected = adCatalog.createAdCatalogDTO();
-        AdCatalogDTO adCatalogDTOactual;
+        AdCatalogDTO adCatalogDTOactual = adCatalog.createAdCatalogDTO();;
 
-        adCatalogDTOactual = adCatalog.getList();
+        List<Ad> adCatalogExpected = adCatalog.getList();
 
-        Assert.assertEquals(adCatalogDTOexpected.adList.get(0), adCatalogDTOactual.adList.get(0));
-        Assert.assertEquals(adCatalogDTOexpected.adList.get(1), adCatalogDTOactual.adList.get(1));
+        Assert.assertEquals(adCatalogExpected.get(0), adCatalogDTOactual.adList.get(0));
+        Assert.assertEquals(adCatalogExpected.get(1), adCatalogDTOactual.adList.get(1));
 
     }
 
@@ -68,7 +69,7 @@ public class AdCatalogShould {
         AdDescription adDescription2 = new AdDescription("descripcion");
         Ad ad1 = new Ad(adTitle, adDescription, LocalDate.now());
         Ad ad2 = new Ad(adTitle2, adDescription2, LocalDate.now());
-       AdCatalog adCatalog = new AdCatalog(new SortAndRemoveTheLastAd());
+        AdCatalog adCatalog = new AdCatalog(new SortAndRemoveTheLastAd());
 
         adCatalog.add(ad1);
 
@@ -112,11 +113,10 @@ public class AdCatalogShould {
         AdTitle adTitle = new AdTitle("titulo");
         AdDescription adDescription = new AdDescription("descripcion");
         Ad ad = new Ad(adTitle, adDescription, LocalDate.now());
-        AdDTO adDTO = ad.createAdDTO();
         AdCatalog adCatalog = new AdCatalog(new SortAndRemoveTheLastAd());
         adCatalog.add(ad);
 
-        Assert.assertEquals(adDTO, adCatalog.get(adTitle, adDescription));
+        Assert.assertEquals(ad, adCatalog.get(adTitle, adDescription));
     }
 
     @Test

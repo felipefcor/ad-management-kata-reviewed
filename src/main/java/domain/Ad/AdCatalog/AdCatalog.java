@@ -28,8 +28,7 @@ public class AdCatalog {
         if(adList.size() == 100) sortAds();
         for (Ad adIter : adList) {
             AdDTO adDTO = adIter.createAdDTO();
-            if(adDTO.adTitle.equals(ad.createAdDTO().adTitle) && adDTO.adDescription.equals(ad.createAdDTO().adDescription))
-                throw new AdExistsAlreadyException();
+            if(adDTO.adTitle.equals(ad.createAdDTO().adTitle) && adDTO.adDescription.equals(ad.createAdDTO().adDescription)) throw new AdExistsAlreadyException();
         }
         adList.add(ad);
       }
@@ -45,10 +44,8 @@ public class AdCatalog {
          }
          if(adList.contains(ad)) adList.remove(ad);
 }
-    public AdCatalogDTO getList() {
-        AdCatalogDTO adCatalogDTO = this.createAdCatalogDTO();
-        adCatalogDTO.adList = this.adList;
-        return adCatalogDTO;
+    public List<Ad> getList() {
+         return this.adList;
     }
 
 
@@ -56,13 +53,21 @@ public class AdCatalog {
         adList.sort(new DateSorter());
         for (Iterator<Ad> iterator = adList.iterator(); iterator.hasNext(); ) {
             Ad ad = iterator.next();
-            if(ad.createAdDTO().date.isBefore(date)) {
+            if(ad.dateIsBefore(date)) {
                 for (AdCatalogObserver adCatalogObserver : this.adCatalogObservers) {
                     adCatalogObserver.updateFavourites(ad);
                 }
                 iterator.remove();
             }
         }
+    }
+
+    public Ad get(AdTitle adTitle, AdDescription adDescription) {
+        for (Ad ad : adList) {
+            ad.increaseAdVisits();
+            if(ad.checkTitle(adTitle) && ad.checkDescription(adDescription)) return ad;
+        }
+        return null;
     }
 
     public void addObserver(AdCatalogObserver adCatalogObserver){
@@ -86,14 +91,5 @@ public class AdCatalog {
     @Override
     public int hashCode() {
         return Objects.hash(adList);
-    }
-
-    public AdDTO get(AdTitle adTitle, AdDescription adDescription) {
-        for (Ad ad : adList) {
-            ad.increaseAdVisits();
-            AdDTO adDTO = ad.createAdDTO();
-            if(adDTO.adTitle.equals(adTitle) && adDTO.adDescription.equals(ad.createAdDTO().adDescription)) return adDTO;
-        }
-        return null;
     }
 }
