@@ -11,6 +11,10 @@ public class AdDescription {
         this.adDescription = adDescription;
     }
 
+    public String getAdDescription() {
+        return adDescription;
+    }
+
     public AdDTODescription createDescriptionDTO() {
         AdDTODescription adDTODescription = new AdDTODescription();
         adDTODescription.adDescription = this.adDescription;

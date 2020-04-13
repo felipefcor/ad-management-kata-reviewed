@@ -13,6 +13,10 @@ public class AdTitle {
         this.adTitle = adTitle;
     }
 
+    public String getAdTitle() {
+        return adTitle;
+    }
+
     public AdDTOTitle createTitleDTO() {
         AdDTOTitle adDTOTitle = new AdDTOTitle();
         adDTOTitle.adTitle = this.adTitle;
