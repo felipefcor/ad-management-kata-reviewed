@@ -21,13 +21,13 @@ public class Ad {
     private List<UserId> favouriteUsers = new ArrayList<>();
 
     public Ad(AdTitle adTitle, AdDescription adDescription, LocalDate date) {
+        if (hasTheSameText(adTitle, adDescription)) throw new TitleAndDescriptionAreTheSameException();
         this.adTitle = adTitle;
         this.adDescription = adDescription;
         this.date = date;
-        if (checkTitleAndDescription()) throw new TitleAndDescriptionAreTheSameException();
     }
 
-    private boolean checkTitleAndDescription() {
+    private boolean hasTheSameText(AdTitle adTitle, AdDescription adDescription) {
         if (adTitle.getAdTitle().equals(adDescription.getAdDescription())) return true;
         return false;
     }
@@ -53,6 +53,10 @@ public class Ad {
         adVisits.increaseVisits();
     }
 
+    public AdVisits getAdVisits() {
+        return adVisits;
+    }
+
     public boolean dateIsBefore(LocalDate dateToCompare){
         if(this.date.isBefore(dateToCompare)) return true;
         return false;
@@ -73,10 +77,7 @@ public class Ad {
         if (o == null || getClass() != o.getClass()) return false;
         Ad ad = (Ad) o;
         return Objects.equals(adTitle, ad.adTitle) &&
-                Objects.equals(adDescription, ad.adDescription) &&
-                Objects.equals(date, ad.date) &&
-                Objects.equals(adVisits, ad.adVisits) &&
-                Objects.equals(favouriteUsers, ad.favouriteUsers);
+                Objects.equals(adDescription, ad.adDescription);
     }
 
     @Override
@@ -93,5 +94,4 @@ public class Ad {
                 ", adVisits=" + adVisits +
                 '}';
     }
-
 }

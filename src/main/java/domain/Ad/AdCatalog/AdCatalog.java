@@ -2,7 +2,6 @@ package domain.Ad.AdCatalog;
 
 import domain.Ad.Ad;
 import domain.Ad.DTO.AdCatalogDTO;
-import domain.Ad.DTO.AdDTO;
 import domain.Ad.DateSorter;
 import domain.Ad.exceptions.AdDoesNotExistException;
 import domain.Ad.exceptions.AdExistsAlreadyException;
@@ -11,39 +10,49 @@ import domain.Ad.valueObjects.AdTitle;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
+import static java.util.stream.Collectors.toList;
+
 public class AdCatalog {
+    private final int MAX_SIZE = 100;
     private List<Ad> adList = new ArrayList<>();
-    SortsAdsByCountry sortsAdsByCountry;
+    private RemovalStrategy removalStrategy;
     private List<AdCatalogObserver> adCatalogObservers = new ArrayList<>();
 
-    public AdCatalog(SortsAdsByCountry sortsAdsByCountry) {
-        this.sortsAdsByCountry = sortsAdsByCountry;
+    public AdCatalog(RemovalStrategy removalStrategy) {
+        this.removalStrategy = removalStrategy;
     }
 
     public void add(Ad ad) {
-        if(adList.size() == 100) sortAds();
-        for (Ad adIter : adList) {
-            AdDTO adDTO = adIter.createAdDTO();
-            if(adDTO.adTitle.equals(ad.createAdDTO().adTitle) && adDTO.adDescription.equals(ad.createAdDTO().adDescription)) throw new AdExistsAlreadyException();
-        }
-        adList.add(ad);
+        if(adList.size() == MAX_SIZE) deleteByStrategy();
+        if(adIsNotInCatalog(ad)) adList.add(ad);
       }
 
-    private List<Ad> sortAds() {
-      return sortsAdsByCountry.sortAds(this.adList);
+    private boolean adIsNotInCatalog(Ad ad) {
+        for (Ad adIter : adList) {
+            if(adIter.equals(ad)) throw new AdExistsAlreadyException();
+        }
+        return true;
+    }
+
+    private void deleteByStrategy() {
+      this.remove(removalStrategy.advertToRemove(this.adList));
     }
 
     public void remove(Ad ad) {
-         if(!adList.contains(ad)) throw new AdDoesNotExistException();
-         for (AdCatalogObserver adCatalogObserver : this.adCatalogObservers) {
-            adCatalogObserver.updateFavourites(ad);
-         }
-         if(adList.contains(ad)) adList.remove(ad);
+        if(!adList.contains(ad)) throw new AdDoesNotExistException();
+        notifyObservers(ad);
+        adList.remove(ad);
 }
+
+    private void notifyObservers(Ad ad) {
+        for (AdCatalogObserver adCatalogObserver : this.adCatalogObservers) {
+           adCatalogObserver.updateFavourites(ad);
+        }
+    }
+
     public List<Ad> getList() {
          return this.adList;
     }
@@ -51,21 +60,15 @@ public class AdCatalog {
 
     public void purge(LocalDate date) {
         adList.sort(new DateSorter());
-        for (Iterator<Ad> iterator = adList.iterator(); iterator.hasNext(); ) {
-            Ad ad = iterator.next();
-            if(ad.dateIsBefore(date)) {
-                for (AdCatalogObserver adCatalogObserver : this.adCatalogObservers) {
-                    adCatalogObserver.updateFavourites(ad);
-                }
-                iterator.remove();
-            }
-        }
+        adList.stream().filter(ad -> ad.dateIsBefore(date)).collect(toList()).forEach(this::remove);
     }
 
     public Ad get(AdTitle adTitle, AdDescription adDescription) {
         for (Ad ad : adList) {
-            ad.increaseAdVisits();
-            if(ad.checkTitle(adTitle) && ad.checkDescription(adDescription)) return ad;
+            if(ad.checkTitle(adTitle) && ad.checkDescription(adDescription)) {
+                ad.increaseAdVisits();
+                return ad;
+            }
         }
         return null;
     }

@@ -23,10 +23,16 @@ public class VisitorSorterShould {
         Ad ad2 = new Ad(new AdTitle("titulo2"), new AdDescription("descripcion2"), dateTest2);
         Ad ad3 = new Ad(new AdTitle("titulo3"), new AdDescription("descripcion3"), dateTest3);
         Ad ad4 = new Ad(new AdTitle("titulo4"), new AdDescription("descripcion4"), dateTest4);
-        ad.createAdDTO().adVisits.visits =10;
-        ad2.createAdDTO().adVisits.visits = 5;
-        ad3.createAdDTO().adVisits.visits = 1;
-        ad4.createAdDTO().adVisits.visits = 3;
+        for (int i = 0; i < 10; i++) {
+            ad.increaseAdVisits();
+        }
+        for (int i = 0; i < 5; i++) {
+            ad2.increaseAdVisits();
+        }
+        for (int i = 0; i < 3; i++) {
+            ad4.increaseAdVisits();
+        }
+        ad3.increaseAdVisits();
         list.add(ad4);
         list.add(ad3);
         list.add(ad);
