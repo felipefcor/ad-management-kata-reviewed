@@ -53,6 +53,10 @@ public class Ad {
         adVisits.increaseVisits();
     }
 
+    public Integer getAdVisits() {
+        return adVisits.getVisits();
+    }
+
     public boolean dateIsBefore(LocalDate dateToCompare){
         if(this.date.isBefore(dateToCompare)) return true;
         return false;

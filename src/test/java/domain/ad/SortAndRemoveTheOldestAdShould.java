@@ -1,7 +1,7 @@
 package domain.ad;
 
 import domain.Ad.Ad;
-import domain.Ad.AdCatalog.SortAndRemoveTheLessVisitedAd;
+import domain.Ad.AdCatalog.SortAndRemoveTheLastAd;
 import domain.Ad.valueObjects.AdDescription;
 import domain.Ad.valueObjects.AdTitle;
 import org.junit.Assert;
@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SortAndRemoveTheLastAdShould {
+public class SortAndRemoveTheOldestAdShould {
     @Test
     public void sort_a_list_of_ads_by_date_and_remove_the_oldest(){
         List<Ad> list = new ArrayList<>();
@@ -23,18 +23,14 @@ public class SortAndRemoveTheLastAdShould {
         Ad ad2 = new Ad(new AdTitle("titulo2"), new AdDescription("descripcion2"), dateTest2);
         Ad ad3 = new Ad(new AdTitle("titulo3"), new AdDescription("descripcion3"), dateTest3);
         Ad ad4 = new Ad(new AdTitle("titulo4"), new AdDescription("descripcion4"), dateTest4);
-        ad.createAdDTO().adVisits.visits = 10;
-        ad2.createAdDTO().adVisits.visits = 5;
-        ad3.createAdDTO().adVisits.visits = 1;
-        ad4.createAdDTO().adVisits.visits = 3;
         list.add(ad4);
         list.add(ad3);
         list.add(ad);
         list.add(ad2);
-        SortAndRemoveTheLessVisitedAd sortAndRemoveTheLessVisitedAd = new SortAndRemoveTheLessVisitedAd();
+        SortAndRemoveTheLastAd sortAndRemoveTheLastAd = new SortAndRemoveTheLastAd();
 
-        sortAndRemoveTheLessVisitedAd.sortAds(list);
+        sortAndRemoveTheLastAd.sortAds(list);
 
-        Assert.assertEquals(ad4, list.get(0));
+        Assert.assertEquals(ad2, list.get(0));
     }
 }

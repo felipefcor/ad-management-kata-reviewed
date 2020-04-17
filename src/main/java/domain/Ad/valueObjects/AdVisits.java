@@ -4,14 +4,14 @@ import java.util.Objects;
 
 public class AdVisits {
 
-    public Integer visits = 0;
+    private Integer visits = 0;
 
     public void increaseVisits() {
-        visits++;
+        this.visits++;
     }
 
-    private int getVisits(){
-        return visits;
+    public Integer getVisits(){
+        return this.visits;
     }
 
     @Override
