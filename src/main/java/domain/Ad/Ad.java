@@ -53,8 +53,8 @@ public class Ad {
         adVisits.increaseVisits();
     }
 
-    public Integer getAdVisits() {
-        return adVisits.getVisits();
+    public AdVisits getAdVisits() {
+        return adVisits;
     }
 
     public boolean dateIsBefore(LocalDate dateToCompare){
@@ -77,10 +77,7 @@ public class Ad {
         if (o == null || getClass() != o.getClass()) return false;
         Ad ad = (Ad) o;
         return Objects.equals(adTitle, ad.adTitle) &&
-                Objects.equals(adDescription, ad.adDescription) &&
-                Objects.equals(date, ad.date) &&
-                Objects.equals(adVisits, ad.adVisits) &&
-                Objects.equals(favouriteUsers, ad.favouriteUsers);
+                Objects.equals(adDescription, ad.adDescription);
     }
 
     @Override
@@ -97,5 +94,4 @@ public class Ad {
                 ", adVisits=" + adVisits +
                 '}';
     }
-
 }

@@ -150,7 +150,7 @@ public class AdCatalogShould {
 
         adCatalog.get(adTitle, adDescription);
 
-        Assert.assertEquals(Integer.valueOf(2), ad.getAdVisits());
+        Assert.assertEquals("2", ad.getAdVisits().toString());
         }
 }
 

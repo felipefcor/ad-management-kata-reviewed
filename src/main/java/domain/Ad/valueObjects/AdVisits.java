@@ -2,7 +2,7 @@ package domain.Ad.valueObjects;
 
 import java.util.Objects;
 
-public class AdVisits {
+public class AdVisits implements Comparable<AdVisits> {
 
     private Integer visits = 0;
 
@@ -10,9 +10,9 @@ public class AdVisits {
         this.visits++;
     }
 
-    public Integer getVisits(){
+   /* public Integer getVisits(){
         return this.visits;
-    }
+    }*/
 
     @Override
     public boolean equals(Object o) {
@@ -28,9 +28,15 @@ public class AdVisits {
     }
 
     @Override
+    public int compareTo(AdVisits adVisits) {
+        if(adVisits.visits == this.visits) return 0;
+        if(adVisits.visits < this.visits) return 1;
+        if(adVisits.visits > this.visits) return -1;
+        return 0;
+    }
+
+    @Override
     public String toString() {
-        return "AdVisits{" +
-                "visits=" + visits +
-                '}';
+        return visits.toString();
     }
 }
