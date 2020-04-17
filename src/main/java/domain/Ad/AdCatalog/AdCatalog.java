@@ -10,9 +10,10 @@ import domain.Ad.valueObjects.AdTitle;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
+
+import static java.util.stream.Collectors.toList;
 
 public class AdCatalog {
     private final int MAX_SIZE = 100;
@@ -54,15 +55,7 @@ public class AdCatalog {
 
     public void purge(LocalDate date) {
         adList.sort(new DateSorter());
-        for (Iterator<Ad> iterator = adList.iterator(); iterator.hasNext(); ) {
-            Ad ad = iterator.next();
-            if(ad.dateIsBefore(date)) {
-                for (AdCatalogObserver adCatalogObserver : this.adCatalogObservers) {
-                    adCatalogObserver.updateFavourites(ad);
-                }
-                iterator.remove();
-            }
-        }
+        adList.stream().filter(ad -> ad.dateIsBefore(date)).collect(toList()).forEach(this::remove);
     }
 
     public Ad get(AdTitle adTitle, AdDescription adDescription) {
