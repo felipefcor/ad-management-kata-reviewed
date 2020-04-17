@@ -21,13 +21,13 @@ public class Ad {
     private List<UserId> favouriteUsers = new ArrayList<>();
 
     public Ad(AdTitle adTitle, AdDescription adDescription, LocalDate date) {
+        if (hasTheSameText(adTitle, adDescription)) throw new TitleAndDescriptionAreTheSameException();
         this.adTitle = adTitle;
         this.adDescription = adDescription;
         this.date = date;
-        if (checkTitleAndDescription()) throw new TitleAndDescriptionAreTheSameException();
     }
 
-    private boolean checkTitleAndDescription() {
+    private boolean hasTheSameText(AdTitle adTitle, AdDescription adDescription) {
         if (adTitle.getAdTitle().equals(adDescription.getAdDescription())) return true;
         return false;
     }
