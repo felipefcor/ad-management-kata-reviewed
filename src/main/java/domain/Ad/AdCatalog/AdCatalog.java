@@ -18,7 +18,7 @@ import static java.util.stream.Collectors.toList;
 public class AdCatalog {
     private final int MAX_SIZE = 100;
     private List<Ad> adList = new ArrayList<>();
-    RemovalStrategy removalStrategy;
+    private RemovalStrategy removalStrategy;
     private List<AdCatalogObserver> adCatalogObservers = new ArrayList<>();
 
     public AdCatalog(RemovalStrategy removalStrategy) {
@@ -44,7 +44,7 @@ public class AdCatalog {
     public void remove(Ad ad) {
         if(!adList.contains(ad)) throw new AdDoesNotExistException();
         notifyObservers(ad);
-        if(adList.contains(ad)) adList.remove(ad);
+        adList.remove(ad);
 }
 
     private void notifyObservers(Ad ad) {
@@ -65,8 +65,10 @@ public class AdCatalog {
 
     public Ad get(AdTitle adTitle, AdDescription adDescription) {
         for (Ad ad : adList) {
-            ad.increaseAdVisits();
-            if(ad.checkTitle(adTitle) && ad.checkDescription(adDescription)) return ad;
+            if(ad.checkTitle(adTitle) && ad.checkDescription(adDescription)) {
+                ad.increaseAdVisits();
+                return ad;
+            }
         }
         return null;
     }
