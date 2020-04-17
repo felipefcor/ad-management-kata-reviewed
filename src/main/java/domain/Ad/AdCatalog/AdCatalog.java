@@ -42,12 +42,17 @@ public class AdCatalog {
     }
 
     public void remove(Ad ad) {
-         if(!adList.contains(ad)) throw new AdDoesNotExistException();
-         for (AdCatalogObserver adCatalogObserver : this.adCatalogObservers) {
-            adCatalogObserver.updateFavourites(ad);
-         }
-         if(adList.contains(ad)) adList.remove(ad);
+        if(!adList.contains(ad)) throw new AdDoesNotExistException();
+        notifyObservers(ad);
+        if(adList.contains(ad)) adList.remove(ad);
 }
+
+    private void notifyObservers(Ad ad) {
+        for (AdCatalogObserver adCatalogObserver : this.adCatalogObservers) {
+           adCatalogObserver.updateFavourites(ad);
+        }
+    }
+
     public List<Ad> getList() {
          return this.adList;
     }
