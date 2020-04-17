@@ -15,24 +15,29 @@ import java.util.List;
 import java.util.Objects;
 
 public class AdCatalog {
+    private final int MAX_SIZE = 100;
     private List<Ad> adList = new ArrayList<>();
-    SortsAdsByCountry getAdToDelete;
+    RemovalStrategy removalStrategy;
     private List<AdCatalogObserver> adCatalogObservers = new ArrayList<>();
 
-    public AdCatalog(SortsAdsByCountry deleteAdsByCountry) {
-        this.getAdToDelete = deleteAdsByCountry;
+    public AdCatalog(RemovalStrategy removalStrategy) {
+        this.removalStrategy = removalStrategy;
     }
 
     public void add(Ad ad) {
-        if(adList.size() == 100) deleteAdsByCountry();
+        if(adList.size() == MAX_SIZE) deleteByStrategy();
+        if(adIsNotInCatalog(ad)) adList.add(ad);
+      }
+
+    private boolean adIsNotInCatalog(Ad ad) {
         for (Ad adIter : adList) {
             if(adIter.equals(ad)) throw new AdExistsAlreadyException();
         }
-        adList.add(ad);
-      }
+        return true;
+    }
 
-    private void deleteAdsByCountry() {
-      this.remove(getAdToDelete.byStrategy(this.adList));
+    private void deleteByStrategy() {
+      this.remove(removalStrategy.advertToRemove(this.adList));
     }
 
     public void remove(Ad ad) {

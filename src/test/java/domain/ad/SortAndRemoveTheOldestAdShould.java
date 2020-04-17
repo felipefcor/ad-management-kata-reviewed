@@ -29,6 +29,6 @@ public class SortAndRemoveTheOldestAdShould {
         list.add(ad2);
         SortAndGetTheLastAd sortAndGetTheLastAd = new SortAndGetTheLastAd();
 
-        Assert.assertEquals(ad, sortAndGetTheLastAd.byStrategy(list));
+        Assert.assertEquals(ad, sortAndGetTheLastAd.advertToRemove(list));
     }
 }

@@ -41,6 +41,6 @@ public class SortAndRemoveTheLessVisitedAdShould {
         list.add(ad2);
         SortAndGetTheLessVisitedAd sortAndGetTheLessVisitedAd = new SortAndGetTheLessVisitedAd();
 
-        Assert.assertEquals(ad3,  sortAndGetTheLessVisitedAd.byStrategy(list));
+        Assert.assertEquals(ad3,  sortAndGetTheLessVisitedAd.advertToRemove(list));
     }
 }
