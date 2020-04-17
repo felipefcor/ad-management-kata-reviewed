@@ -1,7 +1,7 @@
 package domain.ad;
 
 import domain.Ad.Ad;
-import domain.Ad.AdCatalog.SortAndRemoveTheLastAd;
+import domain.Ad.AdCatalog.SortAndGetTheLastAd;
 import domain.Ad.valueObjects.AdDescription;
 import domain.Ad.valueObjects.AdTitle;
 import org.junit.Assert;
@@ -27,10 +27,8 @@ public class SortAndRemoveTheOldestAdShould {
         list.add(ad3);
         list.add(ad);
         list.add(ad2);
-        SortAndRemoveTheLastAd sortAndRemoveTheLastAd = new SortAndRemoveTheLastAd();
+        SortAndGetTheLastAd sortAndGetTheLastAd = new SortAndGetTheLastAd();
 
-        sortAndRemoveTheLastAd.sortAds(list);
-
-        Assert.assertEquals(ad2, list.get(0));
+        Assert.assertEquals(ad, sortAndGetTheLastAd.byStrategy(list));
     }
 }

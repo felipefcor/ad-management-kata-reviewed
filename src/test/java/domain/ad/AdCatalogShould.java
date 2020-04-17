@@ -2,8 +2,8 @@ package domain.ad;
 
 import domain.Ad.Ad;
 import domain.Ad.AdCatalog.AdCatalog;
-import domain.Ad.AdCatalog.SortAndRemoveTheLastAd;
-import domain.Ad.AdCatalog.SortAndRemoveTheLessVisitedAd;
+import domain.Ad.AdCatalog.SortAndGetTheLastAd;
+import domain.Ad.AdCatalog.SortAndGetTheLessVisitedAd;
 import domain.Ad.DTO.AdCatalogDTO;
 import domain.Ad.exceptions.AdDoesNotExistException;
 import domain.Ad.exceptions.AdExistsAlreadyException;
@@ -25,7 +25,7 @@ public class AdCatalogShould {
         AdDescription adDescription2 = new AdDescription("descipción2");
         Ad ad1 = new Ad(adTitle, adDescription, LocalDate.now());
         Ad ad2 = new Ad(adTitle2, adDescription2, LocalDate.now());
-        AdCatalog adCatalog = new AdCatalog(new SortAndRemoveTheLastAd());
+        AdCatalog adCatalog = new AdCatalog(new SortAndGetTheLastAd());
         AdCatalogDTO adCatalogDTO = adCatalog.createAdCatalogDTO();
 
         adCatalog.add(ad1);
@@ -39,7 +39,7 @@ public class AdCatalogShould {
     public void get_the_list_of_existent_ads() {
         Ad ad = new Ad(new AdTitle("titulo"), new AdDescription("descripcion"), LocalDate.now());
         Ad ad2 = new Ad(new AdTitle("titulo1"), new AdDescription("descripcion1"), LocalDate.now());
-        AdCatalog adCatalog = new AdCatalog(new SortAndRemoveTheLastAd());
+        AdCatalog adCatalog = new AdCatalog(new SortAndGetTheLastAd());
         adCatalog.add(ad);
         adCatalog.add(ad2);
         AdCatalogDTO adCatalogDTOactual = adCatalog.createAdCatalogDTO();;
@@ -56,7 +56,7 @@ public class AdCatalogShould {
         AdTitle adTitle = new AdTitle("Titulo");
         AdDescription adDescription = new AdDescription("descipción");
         Ad ad = new Ad(adTitle, adDescription, LocalDate.now());
-        AdCatalog adCatalog = new AdCatalog(new SortAndRemoveTheLastAd());
+        AdCatalog adCatalog = new AdCatalog(new SortAndGetTheLastAd());
 
         Assertions.assertThrows(AdDoesNotExistException.class, () -> adCatalog.remove(ad));
     }
@@ -69,7 +69,7 @@ public class AdCatalogShould {
         AdDescription adDescription2 = new AdDescription("descripcion");
         Ad ad1 = new Ad(adTitle, adDescription, LocalDate.now());
         Ad ad2 = new Ad(adTitle2, adDescription2, LocalDate.now());
-        AdCatalog adCatalog = new AdCatalog(new SortAndRemoveTheLastAd());
+        AdCatalog adCatalog = new AdCatalog(new SortAndGetTheLastAd());
 
         adCatalog.add(ad1);
 
@@ -83,7 +83,7 @@ public class AdCatalogShould {
         Ad ad = new Ad(new AdTitle("titulo"), new AdDescription("descripcion"), dateTest);
         Ad ad2 = new Ad(new AdTitle("titulo2"), new AdDescription("descripcion2"), dateTest2);
         Ad ad3 = new Ad(new AdTitle("titulo3"), new AdDescription("descripcion3"), LocalDate.now());
-        AdCatalog adCatalog = new AdCatalog(new SortAndRemoveTheLastAd());
+        AdCatalog adCatalog = new AdCatalog(new SortAndGetTheLastAd());
         adCatalog.add(ad);
         adCatalog.add(ad2);
         adCatalog.add(ad3);
@@ -97,7 +97,7 @@ public class AdCatalogShould {
 
     @Test
     public void remove_the_oldest_ad_when_the_catalog_reaches_100_ads(){
-        AdCatalog adCatalog = new AdCatalog(new SortAndRemoveTheLastAd());
+        AdCatalog adCatalog = new AdCatalog(new SortAndGetTheLastAd());
         for (int i = 1; i < 103; i++) {
             Ad ad = new Ad(new AdTitle("titulo" + i), new AdDescription("descripcion"+ i), LocalDate.ofYearDay(2019, i));
             adCatalog.add(ad);
@@ -113,7 +113,7 @@ public class AdCatalogShould {
         AdTitle adTitle = new AdTitle("titulo");
         AdDescription adDescription = new AdDescription("descripcion");
         Ad ad = new Ad(adTitle, adDescription, LocalDate.now());
-        AdCatalog adCatalog = new AdCatalog(new SortAndRemoveTheLastAd());
+        AdCatalog adCatalog = new AdCatalog(new SortAndGetTheLastAd());
         adCatalog.add(ad);
 
         Assert.assertEquals(ad, adCatalog.get(adTitle, adDescription));
@@ -121,7 +121,7 @@ public class AdCatalogShould {
 
     @Test
     public void remove_the_less_visited_ad_when_catalog_reaches_100_ads(){
-        AdCatalog adCatalog = new AdCatalog(new SortAndRemoveTheLessVisitedAd());
+        AdCatalog adCatalog = new AdCatalog(new SortAndGetTheLessVisitedAd());
         for (int i = 1; i < 102; i++) {
             Ad ad = new Ad(new AdTitle("titulo" + i), new AdDescription("descripcion"+ i), LocalDate.ofYearDay(2019, i));
             for (int j = 0; j < 5; j++) {
@@ -144,7 +144,7 @@ public class AdCatalogShould {
         AdTitle adTitle = new AdTitle("titulo");
         AdDescription adDescription = new AdDescription("descripcion");
         Ad ad = new Ad(adTitle, adDescription, LocalDate.now());
-        AdCatalog adCatalog = new AdCatalog(new SortAndRemoveTheLastAd());
+        AdCatalog adCatalog = new AdCatalog(new SortAndGetTheLastAd());
         adCatalog.add(ad);
         adCatalog.get(adTitle, adDescription);
 

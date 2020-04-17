@@ -16,23 +16,23 @@ import java.util.Objects;
 
 public class AdCatalog {
     private List<Ad> adList = new ArrayList<>();
-    SortsAdsByCountry sortsAdsByCountry;
+    SortsAdsByCountry getAdToDelete;
     private List<AdCatalogObserver> adCatalogObservers = new ArrayList<>();
 
-    public AdCatalog(SortsAdsByCountry sortsAdsByCountry) {
-        this.sortsAdsByCountry = sortsAdsByCountry;
+    public AdCatalog(SortsAdsByCountry deleteAdsByCountry) {
+        this.getAdToDelete = deleteAdsByCountry;
     }
 
     public void add(Ad ad) {
-        if(adList.size() == 100) sortAds();
+        if(adList.size() == 100) deleteAdsByCountry();
         for (Ad adIter : adList) {
             if(adIter.equals(ad)) throw new AdExistsAlreadyException();
         }
         adList.add(ad);
       }
 
-    private void sortAds() {
-      sortsAdsByCountry.sortAds(this.adList);
+    private void deleteAdsByCountry() {
+      this.remove(getAdToDelete.byStrategy(this.adList));
     }
 
     public void remove(Ad ad) {

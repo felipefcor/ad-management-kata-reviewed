@@ -5,11 +5,11 @@ import domain.Ad.VisitorSorter;
 
 import java.util.List;
 
-public class SortAndRemoveTheLessVisitedAd implements SortsAdsByCountry {
+public class SortAndGetTheLessVisitedAd implements SortsAdsByCountry {
     @Override
-    public void sortAds(List<Ad> ads) {
+    public Ad byStrategy(List<Ad> ads) {
         ads.sort(new VisitorSorter());
-        ads.remove(ads.get(0));
-
+        return ads.get(0);
     }
 }
+

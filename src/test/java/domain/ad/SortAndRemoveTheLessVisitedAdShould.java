@@ -1,7 +1,7 @@
 package domain.ad;
 
 import domain.Ad.Ad;
-import domain.Ad.AdCatalog.SortAndRemoveTheLessVisitedAd;
+import domain.Ad.AdCatalog.SortAndGetTheLessVisitedAd;
 import domain.Ad.valueObjects.AdDescription;
 import domain.Ad.valueObjects.AdTitle;
 import org.junit.Assert;
@@ -34,14 +34,13 @@ public class SortAndRemoveTheLessVisitedAdShould {
             ad4.increaseAdVisits();
         }
         ad3.increaseAdVisits();
+
         list.add(ad4);
         list.add(ad3);
         list.add(ad);
         list.add(ad2);
-        SortAndRemoveTheLessVisitedAd sortAndRemoveTheLessVisitedAd = new SortAndRemoveTheLessVisitedAd();
+        SortAndGetTheLessVisitedAd sortAndGetTheLessVisitedAd = new SortAndGetTheLessVisitedAd();
 
-        sortAndRemoveTheLessVisitedAd.sortAds(list);
-
-        Assert.assertEquals(ad4, list.get(0));
+        Assert.assertEquals(ad3,  sortAndGetTheLessVisitedAd.byStrategy(list));
     }
 }

@@ -5,11 +5,10 @@ import domain.Ad.DateSorter;
 
 import java.util.List;
 
-public class SortAndRemoveTheLastAd implements SortsAdsByCountry {
+public class SortAndGetTheLastAd implements SortsAdsByCountry {
     @Override
-    public void sortAds(List<Ad> ads) {
+    public Ad byStrategy(List<Ad> ads) {
         ads.sort(new DateSorter());
-        ads.remove(ads.get(0));
-      
+        return ads.get(0);
     }
 }
