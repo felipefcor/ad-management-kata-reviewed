@@ -3,12 +3,18 @@ package domain.ad;
 import domain.Ad.Ad;
 import domain.Ad.AdCatalog.AdCatalog;
 import domain.Ad.AdCatalog.SortAndGetTheLastAd;
+import domain.Ad.AdCatalog.SortAndGetTheLessVisitedAd;
+import domain.Ad.exceptions.AdDoesNotExistException;
+import domain.Ad.exceptions.AdExistsAlreadyException;
 import domain.Ad.valueObjects.AdDescription;
 import domain.Ad.valueObjects.AdTitle;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AdCatalogShould {
     @Test
@@ -28,19 +34,24 @@ public class AdCatalogShould {
         Assert.assertEquals(1, adCatalog.getList().size());
     }
 
-/*    @Test
+    @Test
     public void get_the_list_of_existent_ads() {
-        Ad ad = new Ad(new AdTitle("titulo"), new AdDescription("descripcion"), LocalDate.now());
-        Ad ad2 = new Ad(new AdTitle("titulo1"), new AdDescription("descripcion1"), LocalDate.now());
+        AdTitle adTitle = new AdTitle("titulo");
+        AdDescription adDescription = new AdDescription("descripcion");
+        AdTitle adTitle2 = new AdTitle("titulo1");
+        AdDescription adDescription2 = new AdDescription("descripcion1");
+        Ad ad = new Ad(adTitle, adDescription, LocalDate.now());
+        Ad ad2 = new Ad(adTitle2, adDescription2, LocalDate.now());
         AdCatalog adCatalog = new AdCatalog(new SortAndGetTheLastAd());
         adCatalog.add(ad);
         adCatalog.add(ad2);
-        AdCatalogDTO adCatalogDTOactual = adCatalog.createAdCatalogDTO();;
 
-        List<Ad> adCatalogExpected = adCatalog.getList();
+        List<Ad> adCatalogExpected = new ArrayList<>();
+        adCatalogExpected.add(ad);
+        adCatalogExpected.add(ad2);
 
-        Assert.assertEquals(adCatalogExpected.get(0), adCatalogDTOactual.adList.get(0));
-        Assert.assertEquals(adCatalogExpected.get(1), adCatalogDTOactual.adList.get(1));
+        Assert.assertEquals(adCatalogExpected.get(0), adCatalog.getList().get(0));
+        Assert.assertEquals(adCatalogExpected.get(1), adCatalog.getList().get(1));
 
     }
 
@@ -83,8 +94,8 @@ public class AdCatalogShould {
 
         adCatalog.purge(LocalDate.now());
 
-        Assert.assertEquals(ad3, adCatalog.createAdCatalogDTO().adList.get(0));
-        Assert.assertEquals(1, adCatalog.createAdCatalogDTO().adList.size());
+        Assert.assertEquals(ad3, adCatalog.getList().get(0));
+        Assert.assertEquals(1, adCatalog.getList().size());
 
     }
 
@@ -95,10 +106,9 @@ public class AdCatalogShould {
             Ad ad = new Ad(new AdTitle("titulo" + i), new AdDescription("descripcion"+ i), LocalDate.ofYearDay(2019, i));
             adCatalog.add(ad);
         }
-        AdCatalogDTO adCatalogDTO =  adCatalog.createAdCatalogDTO();
 
-        Assert.assertEquals(new Ad(new AdTitle("titulo3"), new AdDescription("descripcion3"), LocalDate.ofYearDay(2019, 3)), adCatalogDTO.adList.get(0));
-        Assert.assertEquals(100, adCatalog.createAdCatalogDTO().adList.size());
+        Assert.assertEquals(new Ad(new AdTitle("titulo3"), new AdDescription("descripcion3"), LocalDate.ofYearDay(2019, 3)), adCatalog.getList().get(0));
+        Assert.assertEquals(100, adCatalog.getList().size());
     }
 
     @Test
@@ -122,14 +132,13 @@ public class AdCatalogShould {
             }
             adCatalog.add(ad);
         }
-        AdCatalogDTO adCatalogDTO =  adCatalog.createAdCatalogDTO();
         Ad adExpected = new Ad(new AdTitle("titulo2"), new AdDescription("descripcion2"), LocalDate.ofYearDay(2019, 2));
         for (int i = 0; i < 5; i++) {
             adExpected.increaseAdVisits();
         }
 
-        Assert.assertEquals(adExpected, adCatalogDTO.adList.get(0));
-        Assert.assertEquals(100, adCatalog.createAdCatalogDTO().adList.size());
+        Assert.assertEquals(adExpected, adCatalog.getList().get(0));
+        Assert.assertEquals(100, adCatalog.getList().size());
     }
 
     @Test
@@ -144,7 +153,7 @@ public class AdCatalogShould {
         adCatalog.get(adTitle, adDescription);
 
         Assert.assertEquals("2", ad.getAdVisits().toString());
-        }*/
+        }
 }
 
 
