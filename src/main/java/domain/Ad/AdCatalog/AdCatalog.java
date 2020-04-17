@@ -31,8 +31,8 @@ public class AdCatalog {
         adList.add(ad);
       }
 
-    private List<Ad> sortAds() {
-      return sortsAdsByCountry.sortAds(this.adList);
+    private void sortAds() {
+      sortsAdsByCountry.sortAds(this.adList);
     }
 
     public void remove(Ad ad) {

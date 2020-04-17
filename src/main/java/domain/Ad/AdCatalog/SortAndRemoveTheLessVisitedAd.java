@@ -7,9 +7,9 @@ import java.util.List;
 
 public class SortAndRemoveTheLessVisitedAd implements SortsAdsByCountry {
     @Override
-    public List<Ad> sortAds(List<Ad> ads) {
+    public void sortAds(List<Ad> ads) {
         ads.sort(new VisitorSorter());
         ads.remove(ads.get(0));
-        return ads;
+
     }
 }
