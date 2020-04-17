@@ -1,7 +1,6 @@
 package domain.Ad.AdCatalog;
 
 import domain.Ad.Ad;
-import domain.Ad.DTO.AdCatalogDTO;
 import domain.Ad.DateSorter;
 import domain.Ad.exceptions.AdDoesNotExistException;
 import domain.Ad.exceptions.AdExistsAlreadyException;
@@ -75,12 +74,6 @@ public class AdCatalog {
 
     public void addObserver(AdCatalogObserver adCatalogObserver){
         this.adCatalogObservers.add(adCatalogObserver);
-    }
-
-    public AdCatalogDTO createAdCatalogDTO() {
-        AdCatalogDTO adCatalogDTO = new AdCatalogDTO();
-        adCatalogDTO.adList = this.adList;
-        return adCatalogDTO;
     }
 
     @Override

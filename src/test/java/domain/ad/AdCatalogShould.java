@@ -3,18 +3,12 @@ package domain.ad;
 import domain.Ad.Ad;
 import domain.Ad.AdCatalog.AdCatalog;
 import domain.Ad.AdCatalog.SortAndGetTheLastAd;
-import domain.Ad.AdCatalog.SortAndGetTheLessVisitedAd;
-import domain.Ad.DTO.AdCatalogDTO;
-import domain.Ad.exceptions.AdDoesNotExistException;
-import domain.Ad.exceptions.AdExistsAlreadyException;
 import domain.Ad.valueObjects.AdDescription;
 import domain.Ad.valueObjects.AdTitle;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.jupiter.api.Assertions;
 
 import java.time.LocalDate;
-import java.util.List;
 
 public class AdCatalogShould {
     @Test
@@ -26,16 +20,15 @@ public class AdCatalogShould {
         Ad ad1 = new Ad(adTitle, adDescription, LocalDate.now());
         Ad ad2 = new Ad(adTitle2, adDescription2, LocalDate.now());
         AdCatalog adCatalog = new AdCatalog(new SortAndGetTheLastAd());
-        AdCatalogDTO adCatalogDTO = adCatalog.createAdCatalogDTO();
 
         adCatalog.add(ad1);
         adCatalog.add(ad2);
         adCatalog.remove(ad1);
 
-        Assert.assertEquals(1, adCatalogDTO.adList.size());
+        Assert.assertEquals(1, adCatalog.getList().size());
     }
 
-    @Test
+/*    @Test
     public void get_the_list_of_existent_ads() {
         Ad ad = new Ad(new AdTitle("titulo"), new AdDescription("descripcion"), LocalDate.now());
         Ad ad2 = new Ad(new AdTitle("titulo1"), new AdDescription("descripcion1"), LocalDate.now());
@@ -151,7 +144,7 @@ public class AdCatalogShould {
         adCatalog.get(adTitle, adDescription);
 
         Assert.assertEquals("2", ad.getAdVisits().toString());
-        }
+        }*/
 }
 
 

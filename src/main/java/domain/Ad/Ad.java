@@ -1,6 +1,5 @@
 package domain.Ad;
 
-import domain.Ad.DTO.AdDTO;
 import domain.Ad.exceptions.TitleAndDescriptionAreTheSameException;
 import domain.Ad.valueObjects.AdDescription;
 import domain.Ad.valueObjects.AdTitle;
@@ -61,14 +60,8 @@ public class Ad {
         if(this.date.isBefore(dateToCompare)) return true;
         return false;
     }
-
-    public AdDTO createAdDTO() {
-        AdDTO adDTO = new AdDTO();
-        adDTO.adTitle = this.adTitle;
-        adDTO.adDescription = this.adDescription;
-        adDTO.date = this.date;
-        adDTO.adVisits = this.adVisits;
-        return adDTO;
+    public LocalDate getDate(){
+        return this.date;
     }
 
     @Override
